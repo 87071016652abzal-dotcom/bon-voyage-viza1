@@ -2,29 +2,28 @@
 if (Astro.request.method === "POST") {
   try {
     const data = await Astro.request.formData();
-    const name = data.get("name");
-    const phone = data.get("phone");
-    const country = data.get("country");
+    const payload = {
+      name: data.get("name"),
+      phone: data.get("phone"),
+      country: data.get("country") || "Не указано",
+    };
 
-    const token = import.meta.env.TELEGRAM_TOKEN;
-    const chatId = import.meta.env.TELEGRAM_CHAT_ID;
-    
-    const text = `ЗАЯВКА\nИмя: ${name}\nТел: ${phone}\nКуда: ${country}`;
-
-    // Отправляем напрямую в Telegram API с сервера Vercel
-    const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    // Важно: отправляем JSON на твой API
+    const response = await fetch(`https://${Astro.url.host}/api/send-telegram`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ chat_id: chatId, text: text })
+      body: JSON.stringify(payload),
     });
 
     if (response.ok) {
-      return Astro.redirect('/?done=true');
+      // После успешной отправки перенаправляем на страницу с сообщением об успехе
+      return Astro.redirect("/?done=true");
     }
   } catch (e) {
-    console.error("Ошибка сервера:", e);
+    console.error("Ошибка при обращении к API:", e);
   }
 }
+
 const done = Astro.url.searchParams.get('done');
 ---
 
