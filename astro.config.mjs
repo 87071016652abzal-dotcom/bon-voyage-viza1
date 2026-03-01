@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config';
-import vercel from '@astrojs/vercel/serverless'; // или просто @astrojs/vercel
+import vercel from '@astrojs/vercel';
 
 export default defineConfig({
-  output: 'server', // ОБЯЗАТЕЛЬНО должно быть server или hybrid
+  // Эта строка разрешает серверный код и отправку форм (убирает ошибку 403)
+  output: 'server', 
   adapter: vercel(),
-});
