@@ -1,0 +1,15 @@
+{
+  "name": "viza-project",
+  "type": "module",
+  "version": "0.0.9",
+  "scripts": {
+    "build": "astro build"
+  },
+  "dependencies": {
+    "@astrojs/vercel": "^9.0.4",
+    "@tailwindcss/postcss": "^4.2.1",
+    "@tailwindcss/vite": "^4.2.1",
+    "astro": "latest",
+    "tailwindcss": "^4.2.1"
+  }
+}

@@ -1,0 +1,171 @@
+---
+if (Astro.request.method === "POST") {
+  try {
+    const data = await Astro.request.formData();
+    const name = data.get("name");
+    const phone = data.get("phone");
+    const country = data.get("country");
+
+    const token = import.meta.env.TELEGRAM_TOKEN;
+    const chatId = import.meta.env.TELEGRAM_CHAT_ID;
+    
+    const text = `ЗАЯВКА\nИмя: ${name}\nТел: ${phone}\nКуда: ${country}`;
+
+    // Отправляем напрямую в Телеграм, минуя прослойку /api/
+    const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: chatId, text: text })
+    });
+
+    if (response.ok) {
+      return Astro.redirect('/?done=true');
+    }
+  } catch (e) {
+    console.error("Ошибка Telegram:", e);
+  }
+}
+const done = Astro.url.searchParams.get('done');
+---
+
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BON VOYAGE | Помощь в получении визы в Алматы</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { background: #000; color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
+        header {
+            position: fixed; top: 0; width: 100%;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 8%; background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px); z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .logo { font-size: 22px; font-weight: 900; text-transform: uppercase; cursor: pointer; }
+        .logo span { color: #2563eb; }
+        nav a { color: #fff; text-decoration: none; margin-left: 30px; font-size: 13px; font-weight: 700; text-transform: uppercase; transition: 0.3s; }
+        nav a:hover { color: #2563eb; }
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), 
+                        url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&q=80&w=2074') no-repeat center center;
+            background-size: cover; min-height: 100vh;
+            display: flex; align-items: center; padding: 120px 8% 50px;
+        }
+        .grid { display: grid; grid-template-columns: 1fr; gap: 50px; width: 100%; }
+        @media (min-width: 1024px) { .grid { grid-template-columns: 1.2fr 1fr; } }
+        .hero-text h1 { font-size: clamp(32px, 5vw, 65px); line-height: 1.1; font-weight: 900; text-transform: uppercase; }
+        .hero-text p { font-size: 18px; margin-top: 25px; border-left: 4px solid #2563eb; padding-left: 20px; color: #ccc; }
+        .form-card { background: rgba(255, 255, 255, 0.05); padding: 40px; border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.1); }
+        input, select { width: 100%; background: #111; border: 1px solid #333; color: #fff; padding: 15px; margin-bottom: 15px; border-radius: 8px; font-family: inherit; outline: none; }
+        .btn { width: 100%; background: #2563eb; color: #fff; padding: 18px; font-weight: 900; text-transform: uppercase; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; }
+        .section { padding: 100px 8%; background: #0a0a0a; border-top: 1px solid #111; }
+        .section-title { font-size: 36px; font-weight: 900; text-transform: uppercase; margin-bottom: 50px; text-align: center; }
+        .section-title span { color: #2563eb; }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .service-card { background: #111; padding: 40px; border-radius: 12px; border: 1px solid #222; }
+        .service-card h3 { margin-bottom: 15px; color: #2563eb; }
+        .contacts-content { display: grid; grid-template-columns: 1fr; gap: 40px; }
+        @media (min-width: 1024px) { .contacts-content { grid-template-columns: 1fr 2fr; } }
+        .contact-info div { margin-bottom: 25px; }
+        .contact-info h4 { color: #2563eb; text-transform: uppercase; margin-bottom: 5px; font-size: 14px; }
+        .map-container { width: 100%; height: 450px; border-radius: 15px; overflow: hidden; border: 2px solid #222; }
+        footer { padding: 40px; text-align: center; font-size: 13px; opacity: 0.5; border-top: 1px solid #222; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo" onclick="window.scrollTo(0,0)">BON <span>VOYAGE</span></div>
+        <nav>
+            <a href="#home">Главная</a>
+            <a href="#services">Услуги</a>
+            <a href="#contacts">Контакты</a>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="grid">
+            <div class="hero-text">
+                <h1>Помощь в получений визы <br> <span style="color:#2563eb">АЛМАТЫ</span></h1>
+                <p>Профессиональная помощь в получении виз. Желтоксан 111 А — ваш путь в любую точку мира начинается здесь.</p>
+            </div>
+
+            <div class="form-card">
+                {done ? (
+                    <div style="text-align: center;">
+                        <h2 style="color: #2563eb;">СПАСИБО!</h2>
+                        <p style="margin-top:10px;">Мы скоро свяжемся с вами.</p>
+                        <a href="/" style="display:inline-block; margin-top:20px; color:#fff;">Назад</a>
+                    </div>
+                ) : (
+                    <form method="POST" autocomplete="off">
+                        <h2 style="margin-bottom:20px; text-align:center;">ОСТАВИТЬ ЗАЯВКУ</h2>
+                        <input type="text" name="name" placeholder="Имя" autocomplete="one-time-code" required />
+                        <input type="text" name="phone" placeholder="Телефон" autocomplete="one-time-code" required />
+                        <select name="country" required>
+                            <option value="" disabled selected>Куда летим?</option>
+                            <option>ШЕНГЕН</option>
+                            <option>США</option>
+                            <option>КОРЕЯ</option>
+                        </select>
+                        <button type="submit" class="btn">Отправить</button>
+                    </form>
+                )}
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="services">
+        <h2 class="section-title">Наши <span>Услуги</span></h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <h3>Шенген</h3>
+                <p>Европа стала ближе. Помогаем с записью и полным пакетом документов.</p>
+            </div>
+            <div class="service-card">
+                <h3>США</h3>
+                <p>Заполнение анкеты DS-160 и детальная подготовка к интервью.</p>
+            </div>
+            <div class="service-card">
+                <h3>Азия</h3>
+                <p>Визы Японию и Корею. Минимум документов — максимум результата.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="contacts">
+        <h2 class="section-title">Наш <span>Офис</span></h2>
+        <div class="contacts-content">
+            <div class="contact-info">
+                <div>
+                    <h4>Наш адрес</h4>
+                    <p>г. Алматы, ул. Желтоксан, 111 А офис 1</p>
+                    <p>(угол ул. Толе Би)</p>
+                </div>
+                <div>
+                    <h4>Телефон</h4>
+                    <p>+7 778 004 44 13</p>
+                </div>
+                <div>
+                    <h4>График</h4>
+                    <p>Пн-Пт: 09:00 — 18:00</p>
+                </div>
+            </div>
+            <div class="map-container">
+                <iframe 
+                    src="https://yandex.ru/map-widget/v1/?ll=76.939223%2C43.254714&z=16&pt=76.939223%2C43.254714,pm2blm" 
+                    width="100%" 
+                    height="100%" 
+                    frameborder="0" 
+                    allowfullscreen="true">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <footer>© 2026 BON VOYAGE | Алматы, Желтоксан 111 А</footer>
+</body>
+</html>
