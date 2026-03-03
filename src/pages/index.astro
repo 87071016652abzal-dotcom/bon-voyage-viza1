@@ -47,604 +47,504 @@ const done = Astro.url.searchParams.get("done");
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --orange: #f07020;
-      --orange-light: #ff9040;
-      --orange-glow: rgba(240,112,32,0.3);
-      --blue-dark: #0a1628;
-      --blue-mid: #0d1f3c;
-      --blue-card: #0f2347;
-      --blue-border: rgba(60,120,200,0.25);
-      --text: #e8f0ff;
-      --muted: #7a9cc0;
+      --o: #e8751a;
+      --o2: #ff9040;
+      --og: rgba(232,117,26,0.25);
+      --blue: #1a6bb5;
+      --blue2: #2585d4;
+      --bg: #0b1525;
+      --bg2: #0e1d35;
+      --card: rgba(13,27,52,0.93);
+      --brd: rgba(50,100,180,0.22);
+      --txt: #deeaff;
+      --mt: #6a90bb;
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--txt);font-family:'Montserrat',sans-serif;overflow-x:hidden}
+
+    /* ══ HEADER ══ */
+    header{
+      position:fixed;top:0;width:100%;z-index:1000;
+      display:flex;justify-content:space-between;align-items:center;
+      padding:12px 6%;
+      background:rgba(8,16,32,0.97);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--brd);
     }
 
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    /* SVG inline logo — гармонирует с цветами сайта */
+    .logo{display:flex;align-items:center;gap:11px;cursor:pointer;text-decoration:none}
+    .logo-icon{width:46px;height:46px;flex-shrink:0}
+    .logo-text{display:flex;flex-direction:column;line-height:1}
+    .logo-bon{font-size:20px;font-weight:900;letter-spacing:.05em;color:#fff}
+    .logo-voyage{font-size:11px;font-weight:600;letter-spacing:.28em;color:var(--mt);text-transform:uppercase;margin-top:1px}
 
-    body {
-      background: var(--blue-dark);
-      color: var(--text);
-      font-family: 'Montserrat', sans-serif;
-      overflow-x: hidden;
+    nav{display:flex;align-items:center;gap:32px}
+    nav a{color:var(--mt);text-decoration:none;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;transition:color .3s}
+    nav a:hover{color:var(--o)}
+    .nbtn{
+      background:var(--o);color:#fff!important;padding:9px 22px;border-radius:3px;
+      font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+      text-decoration:none;box-shadow:0 0 16px var(--og);
+      transition:background .3s,box-shadow .3s!important;
+    }
+    .nbtn:hover{background:var(--o2)!important;box-shadow:0 0 26px var(--og)!important}
+
+    /* ══ HERO ══ */
+    .hero{
+      position:relative;min-height:100vh;
+      display:flex;align-items:center;
+      padding:120px 6% 70px;overflow:hidden;
     }
 
-    /* Diagonal stripe overlay */
-    body::after {
-      content: '';
-      position: fixed; inset: 0;
-      background: repeating-linear-gradient(
-        -55deg, transparent, transparent 80px,
-        rgba(255,255,255,0.01) 80px, rgba(255,255,255,0.01) 81px
+    /* World map — SVG через img тег с прозрачностью */
+    .wmap-bg{
+      position:absolute;inset:0;z-index:0;
+      background:
+        url('https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/World_map_-_low_resolution.svg/2560px-World_map_-_low_resolution.svg.png')
+        55% 48% / 95% auto no-repeat;
+      opacity:0.13;
+      filter:sepia(1) hue-rotate(185deg) saturate(4) brightness(1.4);
+    }
+
+    /* dark blue base */
+    .wgrad{
+      position:absolute;inset:0;z-index:1;
+      background:
+        radial-gradient(ellipse 65% 85% at 55% 48%, rgba(20,50,105,0.45) 0%,transparent 70%),
+        linear-gradient(108deg, rgba(11,21,37,0.95) 0%, rgba(11,21,37,0.45) 48%, rgba(11,21,37,0.88) 100%);
+    }
+
+    /* grid */
+    .wgrid{
+      position:absolute;inset:0;z-index:2;
+      background-image:
+        linear-gradient(rgba(40,90,170,.055) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(40,90,170,.055) 1px,transparent 1px);
+      background-size:55px 55px;
+    }
+
+    /* diagonal stripes */
+    .wstripe{
+      position:absolute;top:0;right:0;width:46%;height:100%;z-index:3;pointer-events:none;
+      background:linear-gradient(-52deg,
+        transparent 28%,
+        rgba(232,117,26,.06) 42%,rgba(232,117,26,.14) 47%,
+        rgba(232,117,26,.05) 52%,transparent 60%,
+        transparent 65%,
+        rgba(232,117,26,.04) 70%,rgba(232,117,26,.1) 73%,
+        rgba(232,117,26,.02) 77%,transparent 83%
       );
-      pointer-events: none; z-index: 0;
     }
 
-    /* HEADER */
-    header {
-      position: fixed; top: 0; width: 100%;
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 14px 6%;
-      background: rgba(10,22,40,0.96);
-      backdrop-filter: blur(16px);
-      z-index: 1000;
-      border-bottom: 1px solid var(--blue-border);
-      animation: fadeDown 0.6s ease both;
+    /* Kazakhstan ring */
+    .kzring{
+      position:absolute;z-index:3;
+      left:59%;top:37%;transform:translate(-50%,-50%);
+      width:260px;height:260px;border-radius:50%;
+      border:1.5px solid rgba(232,117,26,.55);
+      background:radial-gradient(circle,rgba(232,117,26,.17) 0%,rgba(232,117,26,.04) 45%,transparent 70%);
+      animation:rpulse 3s ease-in-out infinite;
+      pointer-events:none;
+    }
+    .kzring::after{
+      content:'';position:absolute;inset:28px;border-radius:50%;
+      border:1px solid rgba(232,117,26,.22);
+    }
+    @keyframes rpulse{0%,100%{box-shadow:0 0 0 0 rgba(232,117,26,.3)}50%{box-shadow:0 0 0 18px rgba(232,117,26,0)}}
+
+    /* pin */
+    .kzpin{
+      position:absolute;z-index:4;
+      left:59%;top:calc(37% - 22px);transform:translateX(-50%);
+      pointer-events:none;
+    }
+    .kzpin svg{filter:drop-shadow(0 0 8px rgba(232,117,26,.8))}
+
+    /* connection lines */
+    .svglines{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
+
+    /* data panels */
+    .dpanels{
+      position:absolute;right:4.5%;top:50%;transform:translateY(-50%);
+      z-index:5;display:flex;flex-direction:column;gap:10px;pointer-events:none;
+    }
+    .dp{
+      background:rgba(9,20,42,.88);border:1px solid rgba(50,100,180,.3);
+      border-left:3px solid var(--o);padding:9px 15px;min-width:155px;
+      backdrop-filter:blur(8px);border-radius:2px;
+    }
+    .dp-l{font-size:9px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--mt);margin-bottom:5px}
+    .dp-bar{height:3px;background:rgba(50,100,180,.18);border-radius:2px;margin-bottom:4px;overflow:hidden}
+    .dp-fill{height:100%;background:linear-gradient(90deg,var(--o),var(--o2));border-radius:2px}
+    .dp-v{font-size:12px;font-weight:700;color:var(--txt)}
+
+    /* hero content */
+    .hcont{
+      position:relative;z-index:5;
+      display:grid;grid-template-columns:1fr 385px;
+      gap:56px;width:100%;align-items:center;
     }
 
-    @keyframes fadeDown {
-      from { opacity: 0; transform: translateY(-16px); }
-      to { opacity: 1; transform: translateY(0); }
+    .hbadge{
+      display:inline-flex;align-items:center;gap:9px;
+      background:rgba(232,117,26,.12);border:1px solid rgba(232,117,26,.4);
+      padding:6px 14px;border-radius:2px;
+      font-size:11px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
+      color:var(--o2);margin-bottom:20px;animation:up .7s .1s ease both;
+    }
+    .hbadge b{
+      display:inline-block;width:7px;height:7px;border-radius:50%;
+      background:var(--o);box-shadow:0 0 7px var(--o);animation:blink 2s infinite;
+    }
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+    h1{font-size:clamp(30px,4.2vw,65px);font-weight:900;line-height:1.06;text-transform:uppercase;animation:up .7s .2s ease both}
+    h1 em{font-style:normal;color:var(--o);text-shadow:0 0 32px rgba(232,117,26,.4)}
+
+    .hdesc{
+      font-size:14px;line-height:1.8;color:var(--mt);
+      margin-top:20px;max-width:470px;
+      border-left:3px solid var(--o);padding-left:15px;
+      animation:up .7s .35s ease both;
     }
 
-    .logo { display: flex; align-items: center; cursor: pointer; }
-    .logo img { height: 46px; width: auto; object-fit: contain; }
+    .hstats{display:flex;gap:34px;margin-top:38px;animation:up .7s .5s ease both}
+    .sn{font-size:35px;font-weight:900;color:var(--o);line-height:1;text-shadow:0 0 16px var(--og)}
+    .sl{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--mt);text-transform:uppercase;margin-top:5px}
 
-    nav { display: flex; align-items: center; gap: 36px; }
-    nav a {
-      color: var(--muted); text-decoration: none;
-      font-size: 12px; font-weight: 600;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      transition: color 0.3s;
-    }
-    nav a:hover { color: var(--orange); }
+    @keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
 
-    .nav-cta {
-      background: var(--orange); color: #fff !important;
-      padding: 10px 24px; font-size: 12px; font-weight: 700;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      text-decoration: none; border-radius: 2px;
-      transition: background 0.3s, box-shadow 0.3s !important;
-      box-shadow: 0 0 20px var(--orange-glow);
+    /* ══ FORM ══ */
+    .fcard{
+      background:var(--card);
+      border:1px solid var(--brd);border-top:3px solid var(--o);
+      padding:34px 30px;backdrop-filter:blur(18px);
+      box-shadow:0 20px 55px rgba(0,0,0,.55),0 0 22px rgba(232,117,26,.06);
+      border-radius:4px;animation:up .7s .3s ease both;
     }
-    .nav-cta:hover { background: var(--orange-light) !important; box-shadow: 0 0 30px var(--orange-glow) !important; }
+    .ft{font-size:18px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;text-align:center;margin-bottom:4px}
+    .fs{text-align:center;font-size:11px;font-weight:600;letter-spacing:.12em;color:var(--o);text-transform:uppercase;margin-bottom:22px}
 
-    /* HERO */
-    .hero {
-      position: relative; min-height: 100vh;
-      display: flex; align-items: center;
-      padding: 130px 6% 80px; overflow: hidden;
+    .ig{margin-bottom:11px}
+    .ig input,.ig select{
+      width:100%;background:rgba(255,255,255,.04);
+      border:1px solid rgba(60,120,200,.28);color:var(--txt);
+      padding:13px 14px;font-family:'Montserrat',sans-serif;
+      font-size:13px;font-weight:500;outline:none;
+      transition:border-color .3s,background .3s;-webkit-appearance:none;border-radius:3px;
     }
+    .ig input::placeholder{color:var(--mt)}
+    .ig input:focus,.ig select:focus{border-color:var(--o);background:rgba(232,117,26,.05)}
+    .ig select option{background:#0d1f3c;color:var(--txt)}
 
-    .hero-bg {
-      position: absolute; inset: 0;
-      background: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=2072') center/cover no-repeat;
-      filter: brightness(0.2) saturate(0.4) hue-rotate(190deg);
+    .fbtn{
+      width:100%;background:var(--o);color:#fff;border:none;
+      padding:15px;font-family:'Montserrat',sans-serif;
+      font-size:13px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;
+      cursor:pointer;margin-top:4px;border-radius:3px;
+      box-shadow:0 4px 16px var(--og);
+      transition:background .3s,box-shadow .3s,transform .15s;
     }
+    .fbtn:hover{background:var(--o2);box-shadow:0 6px 26px rgba(232,117,26,.5);transform:translateY(-2px)}
+    .fbtn:active{transform:translateY(0)}
+    .fnote{text-align:center;font-size:10px;letter-spacing:.07em;color:var(--mt);margin-top:9px}
 
-    .hero-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(135deg, rgba(10,22,40,0.9) 0%, rgba(10,22,40,0.5) 55%, rgba(10,22,40,0.8) 100%);
-    }
+    /* success */
+    .swrap{text-align:center;padding:16px 0}
+    .sico{width:60px;height:60px;border:2px solid var(--o);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:24px;color:var(--o);box-shadow:0 0 26px var(--og)}
+    .sttl{font-size:24px;font-weight:900;text-transform:uppercase;color:var(--o);margin-bottom:8px}
+    .stxt{color:var(--mt);font-size:14px;line-height:1.7}
+    .sback{display:inline-block;margin-top:18px;color:var(--o);text-decoration:none;font-size:11px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;border-bottom:1px solid var(--o);padding-bottom:2px}
 
-    /* Diagonal accent lines like reference */
-    .hero-diagonal {
-      position: absolute; top: 0; right: 0;
-      width: 40%; height: 100%;
-      background: linear-gradient(-55deg,
-        transparent 35%, rgba(240,112,32,0.06) 48%,
-        rgba(240,112,32,0.1) 52%, rgba(240,112,32,0.03) 58%, transparent 68%
-      );
-      pointer-events: none;
-    }
-    .hero-diagonal2 {
-      position: absolute; top: 0; right: 0;
-      width: 25%; height: 100%;
-      background: linear-gradient(-55deg,
-        transparent 40%, rgba(240,112,32,0.04) 52%,
-        rgba(240,112,32,0.08) 56%, rgba(240,112,32,0.02) 62%, transparent 72%
-      );
-      pointer-events: none;
-    }
+    /* ══ DIVIDER ══ */
+    .divl{height:1px;background:linear-gradient(90deg,transparent,rgba(232,117,26,.35),transparent)}
 
-    /* Orange glow circle like reference */
-    .hero-glow {
-      position: absolute; right: 18%; top: 50%; transform: translateY(-50%);
-      width: 380px; height: 380px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(240,112,32,0.12) 0%, transparent 65%);
-      border: 1px solid rgba(240,112,32,0.35);
-      pointer-events: none;
-    }
-    .hero-glow::after {
-      content: ''; position: absolute; inset: 25px;
-      border-radius: 50%; border: 1px solid rgba(240,112,32,0.15);
-    }
+    /* ══ SERVICES ══ */
+    .services{padding:85px 6%;background:var(--bg2)}
+    .stag{display:inline-flex;align-items:center;gap:9px;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--o);margin-bottom:11px}
+    .stag::before{content:'';width:24px;height:2px;background:var(--o)}
+    .sectitle{font-size:clamp(25px,3.2vw,42px);font-weight:900;text-transform:uppercase;line-height:1.1;margin-bottom:46px}
+    .sectitle span{color:var(--o)}
 
-    .hero-content {
-      position: relative; z-index: 1;
-      display: grid; grid-template-columns: 1fr 400px;
-      gap: 70px; width: 100%; align-items: center;
-    }
+    .sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .sc{background:rgba(14,30,62,.85);border:1px solid var(--brd);padding:36px 28px;border-radius:4px;position:relative;overflow:hidden;transition:border-color .3s,transform .3s,box-shadow .3s}
+    .sc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--o),transparent);transform:scaleX(0);transform-origin:left;transition:transform .4s}
+    .sc:hover{border-color:rgba(232,117,26,.4);transform:translateY(-5px);box-shadow:0 14px 34px rgba(0,0,0,.4),0 0 22px rgba(232,117,26,.1)}
+    .sc:hover::before{transform:scaleX(1)}
+    .scn{font-size:48px;font-weight:900;color:rgba(232,117,26,.1);line-height:1;margin-bottom:12px;transition:color .3s}
+    .sc:hover .scn{color:rgba(232,117,26,.2)}
+    .scname{font-size:20px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--txt);margin-bottom:9px}
+    .scdesc{font-size:13px;line-height:1.75;color:var(--mt)}
+    .sctag{display:flex;align-items:center;gap:6px;margin-top:16px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--o)}
+    .sctag::before{content:'→'}
 
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 10px;
-      background: rgba(240,112,32,0.12);
-      border: 1px solid rgba(240,112,32,0.4);
-      padding: 7px 16px; border-radius: 2px;
-      font-size: 11px; font-weight: 700;
-      letter-spacing: 0.15em; text-transform: uppercase;
-      color: var(--orange-light); margin-bottom: 24px;
-      animation: fadeUp 0.7s 0.1s ease both;
-    }
-    .hero-badge::before {
-      content: ''; width: 7px; height: 7px; border-radius: 50%;
-      background: var(--orange); box-shadow: 0 0 8px var(--orange);
-      animation: blink 2s infinite;
-    }
-    @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+    /* ══ CONTACTS ══ */
+    .contacts{padding:85px 6%;background:var(--bg)}
+    .cgrid{display:grid;grid-template-columns:1fr 2fr;gap:60px;margin-top:46px;align-items:start}
+    .cb{margin-bottom:30px}
+    .cb:last-child{margin-bottom:0}
+    .clabel{font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--o);margin-bottom:7px}
+    .cval{font-size:16px;font-weight:600;line-height:1.5;color:var(--txt)}
+    .csub{font-size:12px;color:var(--mt);margin-top:3px}
 
-    .hero-title {
-      font-size: clamp(34px, 5vw, 70px);
-      font-weight: 900; line-height: 1.05;
-      text-transform: uppercase; letter-spacing: -0.01em;
-      animation: fadeUp 0.7s 0.2s ease both;
-    }
-    .hero-title span {
-      color: var(--orange);
-      text-shadow: 0 0 40px rgba(240,112,32,0.4);
-    }
+    .mapbox{position:relative;height:400px;overflow:hidden;border:1px solid var(--brd);border-radius:4px;box-shadow:0 0 32px rgba(232,117,26,.05)}
+    .mapbox::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--o),var(--o2),transparent);z-index:2}
+    .mapbox iframe{width:100%;height:100%;border:none;filter:saturate(.22) brightness(.6) hue-rotate(192deg)}
 
-    .hero-desc {
-      font-size: 15px; line-height: 1.75; color: var(--muted);
-      margin-top: 24px; max-width: 500px; font-weight: 400;
-      border-left: 3px solid var(--orange); padding-left: 18px;
-      animation: fadeUp 0.7s 0.35s ease both;
-    }
+    /* ══ FOOTER ══ */
+    footer{padding:22px 6%;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--brd);background:rgba(5,11,22,.97);gap:20px}
+    .flogo{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .flogo-text{display:flex;flex-direction:column;line-height:1}
+    .flogo-bon{font-size:16px;font-weight:900;letter-spacing:.05em;color:#fff}
+    .flogo-voyage{font-size:9px;font-weight:600;letter-spacing:.28em;color:var(--mt);text-transform:uppercase;margin-top:1px}
+    .fcopy{font-size:12px;color:var(--mt);font-weight:500}
 
-    .hero-stats {
-      display: flex; gap: 40px; margin-top: 44px;
-      animation: fadeUp 0.7s 0.5s ease both;
-    }
-    .stat-num {
-      font-size: 38px; font-weight: 900; color: var(--orange); line-height: 1;
-      text-shadow: 0 0 20px var(--orange-glow);
-    }
-    .stat-label {
-      font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
-      color: var(--muted); text-transform: uppercase; margin-top: 6px;
-    }
+    /* ══ BURGER ══ */
+    .burger{display:none;flex-direction:column;gap:5px;cursor:pointer}
+    .burger span{width:24px;height:2px;background:var(--o);display:block}
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: translateY(0); }
+    /* ══ RESPONSIVE ══ */
+    @media(max-width:1100px){
+      .hcont{grid-template-columns:1fr;gap:42px}
+      .kzring,.kzpin,.dpanels,.wstripe{display:none}
+      .fcard{max-width:500px;width:100%}
+      .sgrid{grid-template-columns:1fr}
+      .cgrid{grid-template-columns:1fr;gap:40px}
     }
-
-    /* FORM */
-    .form-card {
-      background: rgba(13,31,60,0.94);
-      border: 1px solid var(--blue-border);
-      border-top: 3px solid var(--orange);
-      padding: 40px 36px;
-      backdrop-filter: blur(16px);
-      animation: fadeUp 0.7s 0.3s ease both;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 30px rgba(240,112,32,0.06);
-      border-radius: 4px;
-    }
-
-    .form-title {
-      font-size: 20px; font-weight: 800;
-      text-transform: uppercase; letter-spacing: 0.05em;
-      text-align: center; margin-bottom: 6px;
-    }
-    .form-subtitle {
-      text-align: center; font-size: 11px; font-weight: 600;
-      letter-spacing: 0.12em; color: var(--orange);
-      text-transform: uppercase; margin-bottom: 28px;
-    }
-
-    .input-group { margin-bottom: 14px; }
-    .input-group input,
-    .input-group select {
-      width: 100%;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(60,120,200,0.3);
-      color: var(--text);
-      padding: 14px 16px;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 13px; font-weight: 500;
-      outline: none;
-      transition: border-color 0.3s, background 0.3s;
-      -webkit-appearance: none; border-radius: 2px;
-    }
-    .input-group input::placeholder { color: var(--muted); }
-    .input-group input:focus, .input-group select:focus {
-      border-color: var(--orange); background: rgba(240,112,32,0.05);
-    }
-    .input-group select option { background: #0d1f3c; color: var(--text); }
-
-    .btn-submit {
-      width: 100%; background: var(--orange); color: #fff; border: none;
-      padding: 16px; font-family: 'Montserrat', sans-serif;
-      font-size: 13px; font-weight: 800; letter-spacing: 0.15em;
-      text-transform: uppercase; cursor: pointer; margin-top: 6px;
-      border-radius: 2px;
-      transition: background 0.3s, box-shadow 0.3s, transform 0.15s;
-      box-shadow: 0 4px 20px var(--orange-glow);
-    }
-    .btn-submit:hover {
-      background: var(--orange-light);
-      box-shadow: 0 6px 30px rgba(240,112,32,0.5);
-      transform: translateY(-2px);
-    }
-    .btn-submit:active { transform: translateY(0); }
-
-    .form-note {
-      text-align: center; font-size: 10px;
-      letter-spacing: 0.08em; color: var(--muted); margin-top: 12px;
-    }
-
-    /* SUCCESS */
-    .success-wrap { text-align: center; padding: 20px 0; }
-    .success-icon {
-      width: 64px; height: 64px;
-      border: 2px solid var(--orange); border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 20px; font-size: 26px; color: var(--orange);
-      box-shadow: 0 0 30px var(--orange-glow);
-    }
-    .success-title {
-      font-size: 26px; font-weight: 900; text-transform: uppercase;
-      color: var(--orange); margin-bottom: 10px;
-    }
-    .success-text { color: var(--muted); font-size: 14px; line-height: 1.7; }
-    .success-back {
-      display: inline-block; margin-top: 24px; color: var(--orange);
-      text-decoration: none; font-size: 12px; font-weight: 700;
-      letter-spacing: 0.15em; text-transform: uppercase;
-      border-bottom: 1px solid var(--orange); padding-bottom: 2px;
-    }
-
-    /* DIVIDER */
-    .divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(240,112,32,0.4), transparent);
-    }
-
-    /* SERVICES */
-    .services { padding: 100px 6%; background: var(--blue-mid); position: relative; }
-
-    .section-tag {
-      display: inline-flex; align-items: center; gap: 10px;
-      font-size: 11px; font-weight: 700; letter-spacing: 0.2em;
-      text-transform: uppercase; color: var(--orange); margin-bottom: 14px;
-    }
-    .section-tag::before { content: ''; width: 28px; height: 2px; background: var(--orange); }
-
-    .section-title {
-      font-size: clamp(28px, 3.5vw, 46px); font-weight: 900;
-      text-transform: uppercase; line-height: 1.1; margin-bottom: 56px;
-    }
-    .section-title span { color: var(--orange); }
-
-    .services-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
-    }
-
-    .service-card {
-      background: rgba(15,35,71,0.85); border: 1px solid var(--blue-border);
-      padding: 40px 32px; position: relative; overflow: hidden;
-      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
-      border-radius: 4px;
-    }
-    .service-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, var(--orange), transparent);
-      transform: scaleX(0); transform-origin: left; transition: transform 0.4s;
-    }
-    .service-card:hover {
-      border-color: rgba(240,112,32,0.4); transform: translateY(-6px);
-      box-shadow: 0 16px 40px rgba(0,0,0,0.4), 0 0 30px rgba(240,112,32,0.1);
-    }
-    .service-card:hover::before { transform: scaleX(1); }
-
-    .service-num {
-      font-size: 52px; font-weight: 900;
-      color: rgba(240,112,32,0.1); line-height: 1;
-      margin-bottom: 16px; transition: color 0.3s;
-    }
-    .service-card:hover .service-num { color: rgba(240,112,32,0.22); }
-
-    .service-name {
-      font-size: 22px; font-weight: 800; text-transform: uppercase;
-      letter-spacing: 0.05em; color: var(--text); margin-bottom: 12px;
-    }
-    .service-desc { font-size: 13px; line-height: 1.75; color: var(--muted); }
-
-    .service-footer {
-      display: flex; align-items: center; gap: 8px;
-      margin-top: 20px; font-size: 11px; font-weight: 700;
-      letter-spacing: 0.12em; text-transform: uppercase; color: var(--orange);
-    }
-    .service-footer::before { content: '→'; }
-
-    /* CONTACTS */
-    .contacts { padding: 100px 6%; background: var(--blue-dark); }
-
-    .contacts-grid {
-      display: grid; grid-template-columns: 1fr 2fr;
-      gap: 70px; margin-top: 56px; align-items: start;
-    }
-
-    .contact-block { margin-bottom: 36px; }
-    .contact-block:last-child { margin-bottom: 0; }
-
-    .contact-label {
-      font-size: 10px; font-weight: 700; letter-spacing: 0.25em;
-      text-transform: uppercase; color: var(--orange); margin-bottom: 8px;
-    }
-    .contact-value { font-size: 18px; font-weight: 600; line-height: 1.5; color: var(--text); }
-    .contact-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
-
-    .map-wrap {
-      position: relative; height: 440px; overflow: hidden;
-      border: 1px solid var(--blue-border); border-radius: 4px;
-      box-shadow: 0 0 40px rgba(240,112,32,0.06);
-    }
-    .map-wrap::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, var(--orange), var(--orange-light), transparent);
-      z-index: 2;
-    }
-    .map-wrap iframe {
-      width: 100%; height: 100%; border: none;
-      filter: saturate(0.3) brightness(0.65) hue-rotate(195deg);
-    }
-
-    /* FOOTER */
-    footer {
-      padding: 26px 6%; display: flex;
-      justify-content: space-between; align-items: center;
-      border-top: 1px solid var(--blue-border);
-      background: rgba(6,14,26,0.95); gap: 20px;
-    }
-    .footer-logo img { height: 36px; width: auto; object-fit: contain; }
-    .footer-copy { font-size: 12px; color: var(--muted); font-weight: 500; }
-
-    /* MOBILE */
-    .burger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
-    .burger span { width: 24px; height: 2px; background: var(--orange); display: block; }
-
-    @media (max-width: 1024px) {
-      .hero-content { grid-template-columns: 1fr; gap: 50px; }
-      .hero-glow { display: none; }
-      .form-card { max-width: 520px; width: 100%; }
-      .services-grid { grid-template-columns: 1fr; }
-      .contacts-grid { grid-template-columns: 1fr; gap: 50px; }
-    }
-
-    @media (max-width: 768px) {
-      header { padding: 13px 5%; }
-      .logo img { height: 40px; }
-      nav { display: none; }
-      nav.open {
-        display: flex; flex-direction: column;
-        position: fixed; inset: 0;
-        background: rgba(10,22,40,0.99);
-        align-items: center; justify-content: center;
-        gap: 28px; z-index: 999;
-      }
-      nav.open a { font-size: 15px; color: var(--text); }
-      .burger { display: flex; z-index: 1001; }
-
-      .hero { padding: 100px 5% 60px; }
-      .hero-title { font-size: clamp(30px, 8vw, 46px); }
-      .hero-stats { gap: 28px; flex-wrap: wrap; }
-      .hero-diagonal, .hero-diagonal2 { display: none; }
-
-      .services { padding: 70px 5%; }
-      .service-card { padding: 30px 24px; }
-
-      .contacts { padding: 70px 5%; }
-      .map-wrap { height: 280px; }
-
-      .form-card { padding: 32px 22px; }
-
-      footer { flex-direction: column; text-align: center; padding: 22px 5%; gap: 12px; }
-      .footer-logo img { height: 30px; }
+    @media(max-width:768px){
+      header{padding:11px 5%}
+      nav{display:none}
+      nav.open{display:flex;flex-direction:column;position:fixed;inset:0;background:rgba(8,16,32,.99);align-items:center;justify-content:center;gap:26px;z-index:999}
+      nav.open a{font-size:15px;color:var(--txt)}
+      .burger{display:flex;z-index:1001}
+      .hero{padding:92px 5% 52px}
+      h1{font-size:clamp(28px,8vw,42px)}
+      .hstats{gap:22px;flex-wrap:wrap}
+      .services{padding:62px 5%}
+      .sc{padding:26px 20px}
+      .contacts{padding:62px 5%}
+      .mapbox{height:240px}
+      .fcard{padding:28px 18px}
+      footer{flex-direction:column;text-align:center;padding:18px 5%;gap:10px}
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <div class="logo" onclick="window.scrollTo(0,0)">
-      <img src="/logo.png" alt="Bon Voyage" />
+<header>
+  <!-- Логотип в стиле сайта: самолёт SVG + текст в цветах сайта -->
+  <a class="logo" href="#home" onclick="window.scrollTo(0,0)">
+    <svg class="logo-icon" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Orbit ring -->
+      <ellipse cx="23" cy="23" rx="20" ry="9" stroke="#1a6bb5" stroke-width="1.5" fill="none" transform="rotate(-30 23 23)" opacity="0.7"/>
+      <ellipse cx="23" cy="23" rx="20" ry="9" stroke="#e8751a" stroke-width="1.2" fill="none" transform="rotate(-30 23 23) scaleX(0.4)" opacity="0.5"/>
+      <!-- Plane -->
+      <g transform="translate(23,23) rotate(-35) translate(-8,-5)">
+        <path d="M0,5 L14,2 L16,5 L14,8 Z" fill="#ffffff"/>
+        <path d="M4,5 L0,0 L2,5 Z" fill="#deeaff" opacity="0.8"/>
+        <path d="M4,5 L0,10 L2,5 Z" fill="#deeaff" opacity="0.8"/>
+        <path d="M11,5 L9,3 L10,5 Z" fill="#e8751a"/>
+      </g>
+      <!-- Glow dot -->
+      <circle cx="23" cy="23" r="3" fill="#e8751a" opacity="0.6"/>
+    </svg>
+    <div class="logo-text">
+      <span class="logo-bon">BON <span style="color:var(--o)">VOYAGE</span></span>
+      <span class="logo-voyage">Визовый центр</span>
     </div>
-    <nav id="nav">
-      <a href="#home">Главная</a>
-      <a href="#services">Услуги</a>
-      <a href="#contacts">Контакты</a>
-      <a href="#home" class="nav-cta">Оставить заявку</a>
-    </nav>
-    <div class="burger" id="burger" onclick="toggleNav()">
-      <span></span><span></span><span></span>
+  </a>
+
+  <nav id="nav">
+    <a href="#home">Главная</a>
+    <a href="#services">Услуги</a>
+    <a href="#contacts">Контакты</a>
+    <a href="#home" class="nbtn">Оставить заявку</a>
+  </nav>
+  <div class="burger" id="burger" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
+</header>
+
+<!-- ══ HERO ══ -->
+<section class="hero" id="home">
+  <div class="wmap-bg"></div>
+  <div class="wgrad"></div>
+  <div class="wgrid"></div>
+  <div class="wstripe"></div>
+  <div class="kzring"></div>
+
+  <!-- Казахстан pin -->
+  <div class="kzpin">
+    <svg width="16" height="22" viewBox="0 0 16 22">
+      <path d="M8 0C3.58 0 0 3.58 0 8c0 5.5 8 14 8 14s8-8.5 8-14c0-4.42-3.58-8-8-8z" fill="#e8751a"/>
+      <circle cx="8" cy="8" r="3" fill="#fff"/>
+    </svg>
+  </div>
+
+  <!-- SVG connection lines -->
+  <svg class="svglines" viewBox="0 0 1440 900" preserveAspectRatio="none">
+    <defs>
+      <filter id="glow"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+    <line x1="850" y1="340" x2="230" y2="305" stroke="rgba(232,117,26,0.3)" stroke-width="1" stroke-dasharray="5,7"/>
+    <line x1="850" y1="340" x2="430" y2="215" stroke="rgba(232,117,26,0.24)" stroke-width="1" stroke-dasharray="5,8"/>
+    <line x1="850" y1="340" x2="300" y2="480" stroke="rgba(232,117,26,0.2)" stroke-width="1" stroke-dasharray="5,9"/>
+    <line x1="850" y1="340" x2="1150" y2="245" stroke="rgba(232,117,26,0.24)" stroke-width="1" stroke-dasharray="5,7"/>
+    <line x1="850" y1="340" x2="1050" y2="410" stroke="rgba(232,117,26,0.22)" stroke-width="1" stroke-dasharray="5,7"/>
+    <line x1="850" y1="340" x2="650" y2="510" stroke="rgba(232,117,26,0.18)" stroke-width="1" stroke-dasharray="5,9"/>
+    <circle cx="230" cy="305" r="3.5" fill="rgba(232,117,26,0.6)" filter="url(#glow)"/>
+    <circle cx="430" cy="215" r="3.5" fill="rgba(232,117,26,0.55)" filter="url(#glow)"/>
+    <circle cx="300" cy="480" r="3" fill="rgba(232,117,26,0.45)"/>
+    <circle cx="1150" cy="245" r="3.5" fill="rgba(232,117,26,0.55)" filter="url(#glow)"/>
+    <circle cx="1050" cy="410" r="3" fill="rgba(232,117,26,0.45)"/>
+    <circle cx="850" cy="340" r="6" fill="var(--o)" filter="url(#glow)"/>
+  </svg>
+
+  <!-- Data panels -->
+  <div class="dpanels">
+    <div class="dp">
+      <div class="dp-l">Шенген · одобрений</div>
+      <div class="dp-bar"><div class="dp-fill" style="width:94%"></div></div>
+      <div class="dp-v">94%</div>
     </div>
-  </header>
+    <div class="dp">
+      <div class="dp-l">США · одобрений</div>
+      <div class="dp-bar"><div class="dp-fill" style="width:87%"></div></div>
+      <div class="dp-v">87%</div>
+    </div>
+    <div class="dp">
+      <div class="dp-l">Азия · одобрений</div>
+      <div class="dp-bar"><div class="dp-fill" style="width:98%"></div></div>
+      <div class="dp-v">98%</div>
+    </div>
+  </div>
 
-  <!-- HERO -->
-  <section class="hero" id="home">
-    <div class="hero-bg"></div>
-    <div class="hero-overlay"></div>
-    <div class="hero-diagonal"></div>
-    <div class="hero-diagonal2"></div>
-    <div class="hero-glow"></div>
+  <div class="hcont">
+    <div>
+      <div class="hbadge"><b></b>Визовый центр — Алматы</div>
+      <h1>Помощь<br>в получении<br><em>визы</em></h1>
+      <p class="hdesc">Профессиональная помощь в получении виз любой сложности. Желтоксан 111А — мы берём на себя всё, чтобы вы просто наслаждались путешествием.</p>
+      <div class="hstats">
+        <div><div class="sn">500+</div><div class="sl">Виз в год</div></div>
+        <div><div class="sn">98%</div><div class="sl">Одобрений</div></div>
+        <div><div class="sn">5 лет</div><div class="sl">Опыта</div></div>
+      </div>
+    </div>
 
-    <div class="hero-content">
-      <div class="hero-text">
-        <div class="hero-badge">Визовый центр — Алматы</div>
-        <h1 class="hero-title">
-          Помощь<br>в получении<br>
-          <span>визы</span>
-        </h1>
-        <p class="hero-desc">
-          Профессиональная помощь в получении виз любой сложности.
-          Желтоксан 111А — мы берём на себя всё, чтобы вы просто наслаждались путешествием.
-        </p>
-        <div class="hero-stats">
-          <div>
-            <div class="stat-num">500+</div>
-            <div class="stat-label">Виз в год</div>
-          </div>
-          <div>
-            <div class="stat-num">98%</div>
-            <div class="stat-label">Одобрений</div>
-          </div>
-          <div>
-            <div class="stat-num">5 лет</div>
-            <div class="stat-label">Опыта</div>
-          </div>
+    <div class="fcard">
+      {done ? (
+        <div class="swrap">
+          <div class="sico">✓</div>
+          <div class="sttl">Спасибо!</div>
+          <p class="stxt">Ваша заявка получена.<br>Мы свяжемся с вами в ближайшее время.</p>
+          <a href="/" class="sback">← Вернуться</a>
         </div>
-      </div>
+      ) : (
+        <>
+          <div class="ft">Оставить заявку</div>
+          <div class="fs">Консультация бесплатна</div>
+          <form method="POST" autocomplete="off">
+            <div class="ig"><input type="text" name="name" placeholder="Ваше имя" autocomplete="one-time-code" required /></div>
+            <div class="ig"><input type="text" name="phone" placeholder="Номер телефона" autocomplete="one-time-code" required /></div>
+            <div class="ig">
+              <select name="country" required>
+                <option value="" disabled selected>Куда летим?</option>
+                <option>ШЕНГЕН</option>
+                <option>США</option>
+                <option>КОРЕЯ</option>
+                <option>ЯПОНИЯ</option>
+              </select>
+            </div>
+            <button type="submit" class="fbtn">Отправить заявку</button>
+          </form>
+          <p class="fnote">Ответим в течение 1 рабочего часа</p>
+        </>
+      )}
+    </div>
+  </div>
+</section>
 
-      <div class="form-card">
-        {done ? (
-          <div class="success-wrap">
-            <div class="success-icon">✓</div>
-            <div class="success-title">Спасибо!</div>
-            <p class="success-text">Ваша заявка получена.<br>Мы свяжемся с вами в ближайшее время.</p>
-            <a href="/" class="success-back">← Вернуться</a>
-          </div>
-        ) : (
-          <>
-            <div class="form-title">Оставить заявку</div>
-            <div class="form-subtitle">Консультация бесплатна</div>
-            <form method="POST" autocomplete="off">
-              <div class="input-group">
-                <input type="text" name="name" placeholder="Ваше имя" autocomplete="one-time-code" required />
-              </div>
-              <div class="input-group">
-                <input type="text" name="phone" placeholder="Номер телефона" autocomplete="one-time-code" required />
-              </div>
-              <div class="input-group">
-                <select name="country" required>
-                  <option value="" disabled selected>Куда летим?</option>
-                  <option>ШЕНГЕН</option>
-                  <option>США</option>
-                  <option>КОРЕЯ</option>
-                  <option>ЯПОНИЯ</option>
-                </select>
-              </div>
-              <button type="submit" class="btn-submit">Отправить заявку</button>
-            </form>
-            <p class="form-note">Ответим в течение 1 рабочего часа</p>
-          </>
-        )}
+<div class="divl"></div>
+
+<!-- ══ SERVICES ══ -->
+<section class="services" id="services">
+  <div class="stag">Что мы делаем</div>
+  <h2 class="sectitle">Наши <span>Услуги</span></h2>
+  <div class="sgrid">
+    <div class="sc">
+      <div class="scn">01</div>
+      <div class="scname">Шенген</div>
+      <p class="scdesc">Европа стала ближе. Полное сопровождение: запись в консульство, сбор и проверка документов, заполнение анкет.</p>
+      <div class="sctag">Франция · Германия · Италия</div>
+    </div>
+    <div class="sc">
+      <div class="scn">02</div>
+      <div class="scname">США</div>
+      <p class="scdesc">Заполнение анкеты DS-160, детальная подготовка к собеседованию. Максимальные шансы на одобрение.</p>
+      <div class="sctag">B1 · B2 · F1</div>
+    </div>
+    <div class="sc">
+      <div class="scn">03</div>
+      <div class="scname">Азия</div>
+      <p class="scdesc">Визы в Японию и Корею. Минимум документов, максимум результата. Оформление в кратчайшие сроки.</p>
+      <div class="sctag">Япония · Корея</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CONTACTS ══ -->
+<section class="contacts" id="contacts">
+  <div class="stag">Найти нас</div>
+  <h2 class="sectitle">Наш <span>Офис</span></h2>
+  <div class="cgrid">
+    <div>
+      <div class="cb">
+        <div class="clabel">Адрес</div>
+        <div class="cval">ул. Желтоксан, 111А, офис 1</div>
+        <div class="csub">угол ул. Толе Би, г. Алматы</div>
+      </div>
+      <div class="cb">
+        <div class="clabel">Телефон</div>
+        <div class="cval">+7 778 004 44 13</div>
+      </div>
+      <div class="cb">
+        <div class="clabel">График работы</div>
+        <div class="cval">Пн — Пт</div>
+        <div class="csub">09:00 — 18:00</div>
       </div>
     </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- SERVICES -->
-  <section class="services" id="services">
-    <div class="section-tag">Что мы делаем</div>
-    <h2 class="section-title">Наши <span>Услуги</span></h2>
-
-    <div class="services-grid">
-      <div class="service-card">
-        <div class="service-num">01</div>
-        <div class="service-name">Шенген</div>
-        <p class="service-desc">Европа стала ближе. Полное сопровождение: запись в консульство, сбор и проверка документов, заполнение анкет.</p>
-        <div class="service-footer">Франция · Германия · Италия</div>
-      </div>
-      <div class="service-card">
-        <div class="service-num">02</div>
-        <div class="service-name">США</div>
-        <p class="service-desc">Заполнение анкеты DS-160, детальная подготовка к собеседованию. Максимальные шансы на одобрение.</p>
-        <div class="service-footer">B1 · B2 · F1</div>
-      </div>
-      <div class="service-card">
-        <div class="service-num">03</div>
-        <div class="service-name">Азия</div>
-        <p class="service-desc">Визы в Японию и Корею. Минимум документов, максимум результата. Оформление в кратчайшие сроки.</p>
-        <div class="service-footer">Япония · Корея</div>
-      </div>
+    <div class="mapbox">
+      <iframe src="https://yandex.ru/map-widget/v1/?ll=76.939223%2C43.254714&z=16&pt=76.939223%2C43.254714,pm2blm" allowfullscreen="true"></iframe>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- CONTACTS -->
-  <section class="contacts" id="contacts">
-    <div class="section-tag">Найти нас</div>
-    <h2 class="section-title">Наш <span>Офис</span></h2>
-
-    <div class="contacts-grid">
-      <div>
-        <div class="contact-block">
-          <div class="contact-label">Адрес</div>
-          <div class="contact-value">ул. Желтоксан, 111А<br>офис 1</div>
-          <div class="contact-sub">угол ул. Толе Би, г. Алматы</div>
-        </div>
-        <div class="contact-block">
-          <div class="contact-label">Телефон</div>
-          <div class="contact-value">+7 778 004 44 13</div>
-        </div>
-        <div class="contact-block">
-          <div class="contact-label">График работы</div>
-          <div class="contact-value">Пн — Пт</div>
-          <div class="contact-sub">09:00 — 18:00</div>
-        </div>
-      </div>
-
-      <div class="map-wrap">
-        <iframe
-          src="https://yandex.ru/map-widget/v1/?ll=76.939223%2C43.254714&z=16&pt=76.939223%2C43.254714,pm2blm"
-          allowfullscreen="true">
-        </iframe>
-      </div>
+<footer>
+  <a class="flogo" href="#home">
+    <svg width="36" height="36" viewBox="0 0 46 46" fill="none">
+      <ellipse cx="23" cy="23" rx="20" ry="9" stroke="#1a6bb5" stroke-width="1.5" fill="none" transform="rotate(-30 23 23)" opacity="0.7"/>
+      <g transform="translate(23,23) rotate(-35) translate(-8,-5)">
+        <path d="M0,5 L14,2 L16,5 L14,8 Z" fill="#ffffff"/>
+        <path d="M4,5 L0,0 L2,5 Z" fill="#deeaff" opacity="0.8"/>
+        <path d="M4,5 L0,10 L2,5 Z" fill="#deeaff" opacity="0.8"/>
+      </g>
+      <circle cx="23" cy="23" r="3" fill="#e8751a" opacity="0.6"/>
+    </svg>
+    <div class="flogo-text">
+      <span class="flogo-bon">BON <span style="color:var(--o)">VOYAGE</span></span>
+      <span class="flogo-voyage">Визовый центр</span>
     </div>
-  </section>
+  </a>
+  <div class="fcopy">© 2026 BON VOYAGE — Алматы, Желтоксан 111А</div>
+</footer>
 
-  <footer>
-    <div class="footer-logo">
-      <img src="/logo.png" alt="Bon Voyage" />
-    </div>
-    <div class="footer-copy">© 2026 BON VOYAGE — Алматы, Желтоксан 111А</div>
-  </footer>
-
-  <script>
-    function toggleNav() {
-      document.getElementById('nav').classList.toggle('open');
-    }
-    document.querySelectorAll('#nav a').forEach(a => {
-      a.addEventListener('click', () => {
-        document.getElementById('nav').classList.remove('open');
-      });
-    });
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-        }
-      });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.service-card, .contact-block').forEach(el => {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(24px)';
-      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-      observer.observe(el);
-    });
-  </script>
+<script>
+  function toggleNav(){document.getElementById('nav').classList.toggle('open')}
+  document.querySelectorAll('#nav a').forEach(a=>a.addEventListener('click',()=>document.getElementById('nav').classList.remove('open')));
+  const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.style.opacity='1';x.target.style.transform='translateY(0)'}})},{threshold:.1});
+  document.querySelectorAll('.sc,.cb').forEach(el=>{el.style.opacity='0';el.style.transform='translateY(20px)';el.style.transition='opacity .55s ease,transform .55s ease';obs.observe(el)});
+</script>
 </body>
 </html>
