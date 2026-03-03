@@ -41,7 +41,7 @@ const done = Astro.url.searchParams.get("done");
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BON VOYAGE | Визовый центр в Алматы</title>
+  <title>BON VOYAGE | Визовое агентство в Алматы</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -51,34 +51,31 @@ const done = Astro.url.searchParams.get("done");
       --o2: #ff9040;
       --og: rgba(232,117,26,0.25);
       --blue: #1a6bb5;
-      --blue2: #2585d4;
-      --bg: #0b1525;
-      --bg2: #0e1d35;
-      --card: rgba(13,27,52,0.93);
-      --brd: rgba(50,100,180,0.22);
-      --txt: #deeaff;
-      --mt: #6a90bb;
+      --bg: #0f1e38;
+      --bg2: #132340;
+      --card: rgba(16,32,62,0.93);
+      --brd: rgba(60,110,200,0.28);
+      --txt: #e2ecff;
+      --mt: #7a9ec8;
     }
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
     html{scroll-behavior:smooth}
     body{background:var(--bg);color:var(--txt);font-family:'Montserrat',sans-serif;overflow-x:hidden}
 
-    /* ══ HEADER ══ */
+    /* HEADER */
     header{
       position:fixed;top:0;width:100%;z-index:1000;
       display:flex;justify-content:space-between;align-items:center;
       padding:12px 6%;
-      background:rgba(8,16,32,0.97);
+      background:rgba(10,20,40,0.97);
       backdrop-filter:blur(14px);
       border-bottom:1px solid var(--brd);
     }
-
-    /* SVG inline logo — гармонирует с цветами сайта */
     .logo{display:flex;align-items:center;gap:11px;cursor:pointer;text-decoration:none}
     .logo-icon{width:46px;height:46px;flex-shrink:0}
     .logo-text{display:flex;flex-direction:column;line-height:1}
     .logo-bon{font-size:20px;font-weight:900;letter-spacing:.05em;color:#fff}
-    .logo-voyage{font-size:11px;font-weight:600;letter-spacing:.28em;color:var(--mt);text-transform:uppercase;margin-top:1px}
+    .logo-sub{font-size:10px;font-weight:600;letter-spacing:.22em;color:var(--mt);text-transform:uppercase;margin-top:2px}
 
     nav{display:flex;align-items:center;gap:32px}
     nav a{color:var(--mt);text-decoration:none;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;transition:color .3s}
@@ -91,96 +88,80 @@ const done = Astro.url.searchParams.get("done");
     }
     .nbtn:hover{background:var(--o2)!important;box-shadow:0 0 26px var(--og)!important}
 
-    /* ══ HERO ══ */
+    /* HERO */
     .hero{
       position:relative;min-height:100vh;
       display:flex;align-items:center;
       padding:120px 6% 70px;overflow:hidden;
     }
 
-    /* World map — SVG через img тег с прозрачностью */
+    /* world map — светлее */
     .wmap-bg{
       position:absolute;inset:0;z-index:0;
-      background:
-        https://images.unsplash.com/photo-1589519160732-576f165b9aad?auto=format&fit=crop&q=80&w=2070
-        55% 48% / 95% auto no-repeat;
-      opacity:0.13;
-      filter:sepia(1) hue-rotate(185deg) saturate(4) brightness(1.4);
+      background:url('https://images.unsplash.com/photo-1589519160732-576f165b9aad?auto=format&fit=crop&q=80&w=2070')
+        center/cover no-repeat;
+      opacity:0.22;
+      filter:sepia(.4) hue-rotate(185deg) saturate(2.5) brightness(1.6);
     }
 
-    /* dark blue base */
     .wgrad{
       position:absolute;inset:0;z-index:1;
       background:
-        radial-gradient(ellipse 65% 85% at 55% 48%, rgba(20,50,105,0.45) 0%,transparent 70%),
-        linear-gradient(108deg, rgba(11,21,37,0.95) 0%, rgba(11,21,37,0.45) 48%, rgba(11,21,37,0.88) 100%);
+        radial-gradient(ellipse 65% 85% at 55% 48%, rgba(25,60,120,0.4) 0%,transparent 70%),
+        linear-gradient(108deg, rgba(12,24,46,0.88) 0%, rgba(12,24,46,0.38) 48%, rgba(12,24,46,0.82) 100%);
     }
 
-    /* grid */
     .wgrid{
       position:absolute;inset:0;z-index:2;
       background-image:
-        linear-gradient(rgba(40,90,170,.055) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(40,90,170,.055) 1px,transparent 1px);
+        linear-gradient(rgba(50,100,200,.07) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(50,100,200,.07) 1px,transparent 1px);
       background-size:55px 55px;
     }
 
-    /* diagonal stripes */
     .wstripe{
       position:absolute;top:0;right:0;width:46%;height:100%;z-index:3;pointer-events:none;
       background:linear-gradient(-52deg,
         transparent 28%,
-        rgba(232,117,26,.06) 42%,rgba(232,117,26,.14) 47%,
-        rgba(232,117,26,.05) 52%,transparent 60%,
+        rgba(232,117,26,.07) 42%,rgba(232,117,26,.15) 47%,
+        rgba(232,117,26,.06) 52%,transparent 60%,
         transparent 65%,
-        rgba(232,117,26,.04) 70%,rgba(232,117,26,.1) 73%,
-        rgba(232,117,26,.02) 77%,transparent 83%
+        rgba(232,117,26,.05) 70%,rgba(232,117,26,.1) 73%,
+        rgba(232,117,26,.03) 77%,transparent 83%
       );
     }
 
-    /* Kazakhstan ring */
     .kzring{
       position:absolute;z-index:3;
       left:59%;top:37%;transform:translate(-50%,-50%);
       width:260px;height:260px;border-radius:50%;
-      border:1.5px solid rgba(232,117,26,.55);
-      background:radial-gradient(circle,rgba(232,117,26,.17) 0%,rgba(232,117,26,.04) 45%,transparent 70%);
+      border:1.5px solid rgba(232,117,26,.6);
+      background:radial-gradient(circle,rgba(232,117,26,.18) 0%,rgba(232,117,26,.04) 45%,transparent 70%);
       animation:rpulse 3s ease-in-out infinite;
       pointer-events:none;
     }
-    .kzring::after{
-      content:'';position:absolute;inset:28px;border-radius:50%;
-      border:1px solid rgba(232,117,26,.22);
-    }
+    .kzring::after{content:'';position:absolute;inset:28px;border-radius:50%;border:1px solid rgba(232,117,26,.25)}
     @keyframes rpulse{0%,100%{box-shadow:0 0 0 0 rgba(232,117,26,.3)}50%{box-shadow:0 0 0 18px rgba(232,117,26,0)}}
 
-    /* pin */
-    .kzpin{
-      position:absolute;z-index:4;
-      left:59%;top:calc(37% - 22px);transform:translateX(-50%);
-      pointer-events:none;
-    }
+    .kzpin{position:absolute;z-index:4;left:59%;top:calc(37% - 22px);transform:translateX(-50%);pointer-events:none}
     .kzpin svg{filter:drop-shadow(0 0 8px rgba(232,117,26,.8))}
 
-    /* connection lines */
     .svglines{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
 
-    /* data panels */
     .dpanels{
       position:absolute;right:4.5%;top:50%;transform:translateY(-50%);
       z-index:5;display:flex;flex-direction:column;gap:10px;pointer-events:none;
     }
     .dp{
-      background:rgba(9,20,42,.88);border:1px solid rgba(50,100,180,.3);
+      background:rgba(10,22,48,.88);border:1px solid rgba(60,110,200,.32);
       border-left:3px solid var(--o);padding:9px 15px;min-width:155px;
       backdrop-filter:blur(8px);border-radius:2px;
     }
     .dp-l{font-size:9px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--mt);margin-bottom:5px}
-    .dp-bar{height:3px;background:rgba(50,100,180,.18);border-radius:2px;margin-bottom:4px;overflow:hidden}
+    .dp-bar{height:3px;background:rgba(60,110,200,.2);border-radius:2px;margin-bottom:4px;overflow:hidden}
     .dp-fill{height:100%;background:linear-gradient(90deg,var(--o),var(--o2));border-radius:2px}
     .dp-v{font-size:12px;font-weight:700;color:var(--txt)}
 
-    /* hero content */
     .hcont{
       position:relative;z-index:5;
       display:grid;grid-template-columns:1fr 385px;
@@ -189,15 +170,12 @@ const done = Astro.url.searchParams.get("done");
 
     .hbadge{
       display:inline-flex;align-items:center;gap:9px;
-      background:rgba(232,117,26,.12);border:1px solid rgba(232,117,26,.4);
+      background:rgba(232,117,26,.13);border:1px solid rgba(232,117,26,.42);
       padding:6px 14px;border-radius:2px;
       font-size:11px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
       color:var(--o2);margin-bottom:20px;animation:up .7s .1s ease both;
     }
-    .hbadge b{
-      display:inline-block;width:7px;height:7px;border-radius:50%;
-      background:var(--o);box-shadow:0 0 7px var(--o);animation:blink 2s infinite;
-    }
+    .hbadge b{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--o);box-shadow:0 0 7px var(--o);animation:blink 2s infinite}
     @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 
     h1{font-size:clamp(30px,4.2vw,65px);font-weight:900;line-height:1.06;text-transform:uppercase;animation:up .7s .2s ease both}
@@ -216,12 +194,12 @@ const done = Astro.url.searchParams.get("done");
 
     @keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
 
-    /* ══ FORM ══ */
+    /* FORM */
     .fcard{
       background:var(--card);
       border:1px solid var(--brd);border-top:3px solid var(--o);
       padding:34px 30px;backdrop-filter:blur(18px);
-      box-shadow:0 20px 55px rgba(0,0,0,.55),0 0 22px rgba(232,117,26,.06);
+      box-shadow:0 20px 55px rgba(0,0,0,.5),0 0 22px rgba(232,117,26,.06);
       border-radius:4px;animation:up .7s .3s ease both;
     }
     .ft{font-size:18px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;text-align:center;margin-bottom:4px}
@@ -229,8 +207,8 @@ const done = Astro.url.searchParams.get("done");
 
     .ig{margin-bottom:11px}
     .ig input,.ig select{
-      width:100%;background:rgba(255,255,255,.04);
-      border:1px solid rgba(60,120,200,.28);color:var(--txt);
+      width:100%;background:rgba(255,255,255,.05);
+      border:1px solid rgba(60,120,200,.3);color:var(--txt);
       padding:13px 14px;font-family:'Montserrat',sans-serif;
       font-size:13px;font-weight:500;outline:none;
       transition:border-color .3s,background .3s;-webkit-appearance:none;border-radius:3px;
@@ -258,10 +236,10 @@ const done = Astro.url.searchParams.get("done");
     .stxt{color:var(--mt);font-size:14px;line-height:1.7}
     .sback{display:inline-block;margin-top:18px;color:var(--o);text-decoration:none;font-size:11px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;border-bottom:1px solid var(--o);padding-bottom:2px}
 
-    /* ══ DIVIDER ══ */
+    /* DIVIDER */
     .divl{height:1px;background:linear-gradient(90deg,transparent,rgba(232,117,26,.35),transparent)}
 
-    /* ══ SERVICES ══ */
+    /* SERVICES */
     .services{padding:85px 6%;background:var(--bg2)}
     .stag{display:inline-flex;align-items:center;gap:9px;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--o);margin-bottom:11px}
     .stag::before{content:'';width:24px;height:2px;background:var(--o)}
@@ -269,19 +247,48 @@ const done = Astro.url.searchParams.get("done");
     .sectitle span{color:var(--o)}
 
     .sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-    .sc{background:rgba(14,30,62,.85);border:1px solid var(--brd);padding:36px 28px;border-radius:4px;position:relative;overflow:hidden;transition:border-color .3s,transform .3s,box-shadow .3s}
+    .sc{
+      background:rgba(16,34,68,.88);border:1px solid var(--brd);
+      padding:36px 28px;border-radius:4px;position:relative;overflow:hidden;
+      transition:border-color .3s,transform .3s,box-shadow .3s;
+    }
     .sc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--o),transparent);transform:scaleX(0);transform-origin:left;transition:transform .4s}
     .sc:hover{border-color:rgba(232,117,26,.4);transform:translateY(-5px);box-shadow:0 14px 34px rgba(0,0,0,.4),0 0 22px rgba(232,117,26,.1)}
     .sc:hover::before{transform:scaleX(1)}
     .scn{font-size:48px;font-weight:900;color:rgba(232,117,26,.1);line-height:1;margin-bottom:12px;transition:color .3s}
-    .sc:hover .scn{color:rgba(232,117,26,.2)}
+    .sc:hover .scn{color:rgba(232,117,26,.22)}
     .scname{font-size:20px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--txt);margin-bottom:9px}
     .scdesc{font-size:13px;line-height:1.75;color:var(--mt)}
-    .sctag{display:flex;align-items:center;gap:6px;margin-top:16px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--o)}
-    .sctag::before{content:'→'}
+    .sctag{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+    .sctag span{
+      background:rgba(232,117,26,.12);border:1px solid rgba(232,117,26,.3);
+      padding:3px 10px;border-radius:2px;font-size:10px;font-weight:700;
+      letter-spacing:.08em;text-transform:uppercase;color:var(--o2);
+    }
 
-    /* ══ CONTACTS ══ */
-    .contacts{padding:85px 6%;background:var(--bg)}
+    /* REVIEWS */
+    .reviews{padding:85px 6%;background:var(--bg)}
+    .rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:0}
+    .rv{
+      background:rgba(16,34,68,.7);border:1px solid var(--brd);
+      padding:32px 28px;border-radius:4px;
+      transition:border-color .3s,transform .3s;
+    }
+    .rv:hover{border-color:rgba(232,117,26,.35);transform:translateY(-4px)}
+    .rv-stars{color:var(--o);font-size:16px;margin-bottom:14px;letter-spacing:2px}
+    .rv-text{font-size:13px;line-height:1.75;color:var(--mt);margin-bottom:18px;font-style:italic}
+    .rv-author{display:flex;align-items:center;gap:12px}
+    .rv-avatar{
+      width:42px;height:42px;border-radius:50%;
+      background:linear-gradient(135deg,var(--o),var(--blue));
+      display:flex;align-items:center;justify-content:center;
+      font-size:16px;font-weight:800;color:#fff;flex-shrink:0;
+    }
+    .rv-name{font-size:13px;font-weight:700;color:var(--txt)}
+    .rv-country{font-size:11px;color:var(--mt);margin-top:2px}
+
+    /* CONTACTS */
+    .contacts{padding:85px 6%;background:var(--bg2)}
     .cgrid{display:grid;grid-template-columns:1fr 2fr;gap:60px;margin-top:46px;align-items:start}
     .cb{margin-bottom:30px}
     .cb:last-child{margin-bottom:0}
@@ -293,38 +300,35 @@ const done = Astro.url.searchParams.get("done");
     .mapbox::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--o),var(--o2),transparent);z-index:2}
     .mapbox iframe{width:100%;height:100%;border:none;filter:saturate(.22) brightness(.6) hue-rotate(192deg)}
 
-    /* ══ FOOTER ══ */
-    footer{padding:22px 6%;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--brd);background:rgba(5,11,22,.97);gap:20px}
+    /* FOOTER */
+    footer{padding:22px 6%;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--brd);background:rgba(6,12,26,.97);gap:20px}
     .flogo{display:flex;align-items:center;gap:10px;text-decoration:none}
-    .flogo-text{display:flex;flex-direction:column;line-height:1}
     .flogo-bon{font-size:16px;font-weight:900;letter-spacing:.05em;color:#fff}
-    .flogo-voyage{font-size:9px;font-weight:600;letter-spacing:.28em;color:var(--mt);text-transform:uppercase;margin-top:1px}
+    .flogo-sub{font-size:9px;font-weight:600;letter-spacing:.22em;color:var(--mt);text-transform:uppercase;margin-top:1px}
     .fcopy{font-size:12px;color:var(--mt);font-weight:500}
 
-    /* ══ BURGER ══ */
     .burger{display:none;flex-direction:column;gap:5px;cursor:pointer}
     .burger span{width:24px;height:2px;background:var(--o);display:block}
 
-    /* ══ RESPONSIVE ══ */
     @media(max-width:1100px){
       .hcont{grid-template-columns:1fr;gap:42px}
       .kzring,.kzpin,.dpanels,.wstripe{display:none}
       .fcard{max-width:500px;width:100%}
       .sgrid{grid-template-columns:1fr}
+      .rgrid{grid-template-columns:1fr}
       .cgrid{grid-template-columns:1fr;gap:40px}
     }
     @media(max-width:768px){
       header{padding:11px 5%}
       nav{display:none}
-      nav.open{display:flex;flex-direction:column;position:fixed;inset:0;background:rgba(8,16,32,.99);align-items:center;justify-content:center;gap:26px;z-index:999}
+      nav.open{display:flex;flex-direction:column;position:fixed;inset:0;background:rgba(8,16,36,.99);align-items:center;justify-content:center;gap:26px;z-index:999}
       nav.open a{font-size:15px;color:var(--txt)}
       .burger{display:flex;z-index:1001}
       .hero{padding:92px 5% 52px}
       h1{font-size:clamp(28px,8vw,42px)}
       .hstats{gap:22px;flex-wrap:wrap}
-      .services{padding:62px 5%}
-      .sc{padding:26px 20px}
-      .contacts{padding:62px 5%}
+      .services,.reviews,.contacts{padding:62px 5%}
+      .sc,.rv{padding:26px 20px}
       .mapbox{height:240px}
       .fcard{padding:28px 18px}
       footer{flex-direction:column;text-align:center;padding:18px 5%;gap:10px}
@@ -334,31 +338,28 @@ const done = Astro.url.searchParams.get("done");
 <body>
 
 <header>
-  <!-- Логотип в стиле сайта: самолёт SVG + текст в цветах сайта -->
-  <a class="logo" href="#home" onclick="window.scrollTo(0,0)">
+  <a class="logo" href="#home">
     <svg class="logo-icon" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- Orbit ring -->
-      <ellipse cx="23" cy="23" rx="20" ry="9" stroke="#1a6bb5" stroke-width="1.5" fill="none" transform="rotate(-30 23 23)" opacity="0.7"/>
-      <ellipse cx="23" cy="23" rx="20" ry="9" stroke="#e8751a" stroke-width="1.2" fill="none" transform="rotate(-30 23 23) scaleX(0.4)" opacity="0.5"/>
-      <!-- Plane -->
+      <ellipse cx="23" cy="23" rx="20" ry="9" stroke="#1a6bb5" stroke-width="1.5" fill="none" transform="rotate(-30 23 23)" opacity="0.8"/>
+      <ellipse cx="23" cy="23" rx="12" ry="5" stroke="#e8751a" stroke-width="1.2" fill="none" transform="rotate(-30 23 23)" opacity="0.6"/>
       <g transform="translate(23,23) rotate(-35) translate(-8,-5)">
         <path d="M0,5 L14,2 L16,5 L14,8 Z" fill="#ffffff"/>
-        <path d="M4,5 L0,0 L2,5 Z" fill="#deeaff" opacity="0.8"/>
-        <path d="M4,5 L0,10 L2,5 Z" fill="#deeaff" opacity="0.8"/>
-        <path d="M11,5 L9,3 L10,5 Z" fill="#e8751a"/>
+        <path d="M4,5 L0,0 L2,5 Z" fill="#c8dbff" opacity="0.9"/>
+        <path d="M4,5 L0,10 L2,5 Z" fill="#c8dbff" opacity="0.9"/>
+        <path d="M13,4 L11,3 L12,5 Z" fill="#e8751a"/>
       </g>
-      <!-- Glow dot -->
-      <circle cx="23" cy="23" r="3" fill="#e8751a" opacity="0.6"/>
+      <circle cx="23" cy="23" r="2.5" fill="#e8751a" opacity="0.7"/>
     </svg>
     <div class="logo-text">
       <span class="logo-bon">BON <span style="color:var(--o)">VOYAGE</span></span>
-      <span class="logo-voyage">Визовый центр</span>
+      <span class="logo-sub">Визовое агентство</span>
     </div>
   </a>
 
   <nav id="nav">
     <a href="#home">Главная</a>
     <a href="#services">Услуги</a>
+    <a href="#reviews">Отзывы</a>
     <a href="#contacts">Контакты</a>
     <a href="#home" class="nbtn">Оставить заявку</a>
   </nav>
@@ -367,15 +368,13 @@ const done = Astro.url.searchParams.get("done");
   </div>
 </header>
 
-<!-- ══ HERO ══ -->
+<!-- HERO -->
 <section class="hero" id="home">
   <div class="wmap-bg"></div>
   <div class="wgrad"></div>
   <div class="wgrid"></div>
   <div class="wstripe"></div>
   <div class="kzring"></div>
-
-  <!-- Казахстан pin -->
   <div class="kzpin">
     <svg width="16" height="22" viewBox="0 0 16 22">
       <path d="M8 0C3.58 0 0 3.58 0 8c0 5.5 8 14 8 14s8-8.5 8-14c0-4.42-3.58-8-8-8z" fill="#e8751a"/>
@@ -383,7 +382,6 @@ const done = Astro.url.searchParams.get("done");
     </svg>
   </div>
 
-  <!-- SVG connection lines -->
   <svg class="svglines" viewBox="0 0 1440 900" preserveAspectRatio="none">
     <defs>
       <filter id="glow"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
@@ -399,10 +397,9 @@ const done = Astro.url.searchParams.get("done");
     <circle cx="300" cy="480" r="3" fill="rgba(232,117,26,0.45)"/>
     <circle cx="1150" cy="245" r="3.5" fill="rgba(232,117,26,0.55)" filter="url(#glow)"/>
     <circle cx="1050" cy="410" r="3" fill="rgba(232,117,26,0.45)"/>
-    <circle cx="850" cy="340" r="6" fill="var(--o)" filter="url(#glow)"/>
+    <circle cx="850" cy="340" r="6" fill="#e8751a" filter="url(#glow)"/>
   </svg>
 
-  <!-- Data panels -->
   <div class="dpanels">
     <div class="dp">
       <div class="dp-l">Шенген · одобрений</div>
@@ -423,11 +420,11 @@ const done = Astro.url.searchParams.get("done");
 
   <div class="hcont">
     <div>
-      <div class="hbadge"><b></b>Визовый центр — Алматы</div>
+      <div class="hbadge"><b></b>Визовое агентство — Алматы</div>
       <h1>Помощь<br>в получении<br><em>визы</em></h1>
       <p class="hdesc">Профессиональная помощь в получении виз любой сложности. Желтоксан 111А — мы берём на себя всё, чтобы вы просто наслаждались путешествием.</p>
       <div class="hstats">
-        <div><div class="sn">500+</div><div class="sl">Виз в год</div></div>
+        <div><div class="sn">1000+</div><div class="sl">Виз в год</div></div>
         <div><div class="sn">98%</div><div class="sl">Одобрений</div></div>
         <div><div class="sn">5 лет</div><div class="sl">Опыта</div></div>
       </div>
@@ -453,6 +450,13 @@ const done = Astro.url.searchParams.get("done");
                 <option value="" disabled selected>Куда летим?</option>
                 <option>ШЕНГЕН</option>
                 <option>США</option>
+                <option>КАНАДА</option>
+                <option>ВЕЛИКОБРИТАНИЯ</option>
+                <option>АВСТРАЛИЯ</option>
+                <option>НОВАЯ ЗЕЛАНДИЯ</option>
+                <option>ГРУЗИЯ</option>
+                <option>ТУРЦИЯ</option>
+                <option>АФРИКА</option>
                 <option>КОРЕЯ</option>
                 <option>ЯПОНИЯ</option>
               </select>
@@ -468,7 +472,7 @@ const done = Astro.url.searchParams.get("done");
 
 <div class="divl"></div>
 
-<!-- ══ SERVICES ══ -->
+<!-- SERVICES -->
 <section class="services" id="services">
   <div class="stag">Что мы делаем</div>
   <h2 class="sectitle">Наши <span>Услуги</span></h2>
@@ -476,25 +480,109 @@ const done = Astro.url.searchParams.get("done");
     <div class="sc">
       <div class="scn">01</div>
       <div class="scname">Шенген</div>
-      <p class="scdesc">Европа стала ближе. Полное сопровождение: запись в консульство, сбор и проверка документов, заполнение анкет.</p>
-      <div class="sctag">Франция · Германия · Италия</div>
+      <p class="scdesc">Полное сопровождение: запись в консульство, сбор и проверка документов, заполнение анкет для стран Европы.</p>
+      <div class="sctag">
+        <span>Шенген</span>
+      </div>
     </div>
     <div class="sc">
       <div class="scn">02</div>
-      <div class="scname">США</div>
-      <p class="scdesc">Заполнение анкеты DS-160, детальная подготовка к собеседованию. Максимальные шансы на одобрение.</p>
-      <div class="sctag">B1 · B2 · F1</div>
+      <div class="scname">Англоязычные страны</div>
+      <p class="scdesc">Визы в США, Канаду, Великобританию, Австралию и Новую Зеландию. Подготовка документов и сопровождение на всех этапах.</p>
+      <div class="sctag">
+        <span>США</span><span>Канада</span><span>Великобритания</span><span>Австралия</span><span>Новая Зеландия</span>
+      </div>
     </div>
     <div class="sc">
       <div class="scn">03</div>
-      <div class="scname">Азия</div>
-      <p class="scdesc">Визы в Японию и Корею. Минимум документов, максимум результата. Оформление в кратчайшие сроки.</p>
-      <div class="sctag">Япония · Корея</div>
+      <div class="scname">Другие направления</div>
+      <p class="scdesc">Грузия, Турция, страны Африки, Япония, Корея и другие направления. Минимум документов — максимум результата.</p>
+      <div class="sctag">
+        <span>Грузия</span><span>Турция</span><span>Африка</span><span>Япония</span><span>Корея</span>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ══ CONTACTS ══ -->
+<div class="divl"></div>
+
+<!-- REVIEWS -->
+<section class="reviews" id="reviews">
+  <div class="stag">Что говорят клиенты</div>
+  <h2 class="sectitle">Отзывы</h2>
+  <div class="rgrid">
+    <div class="rv">
+      <div class="rv-stars">★★★★★</div>
+      <p class="rv-text">«Оформляли шенгенскую визу в Германию. Всё прошло быстро и без лишних вопросов. Ребята собрали весь пакет документов за один день. Очень рекомендую!»</p>
+      <div class="rv-author">
+        <div class="rv-avatar">А</div>
+        <div>
+          <div class="rv-name">Айгерим С.</div>
+          <div class="rv-country">🇩🇪 Германия · Шенген</div>
+        </div>
+      </div>
+    </div>
+    <div class="rv">
+      <div class="rv-stars">★★★★★</div>
+      <p class="rv-text">«Помогли с визой в США. Отказали один раз сами, обратились в агентство — с первого раза одобрили. Подготовка к интервью была на высшем уровне.»</p>
+      <div class="rv-author">
+        <div class="rv-avatar">Д</div>
+        <div>
+          <div class="rv-name">Данияр К.</div>
+          <div class="rv-country">🇺🇸 США · B2</div>
+        </div>
+      </div>
+    </div>
+    <div class="rv">
+      <div class="rv-stars">★★★★★</div>
+      <p class="rv-text">«Оформляли визы в Японию для всей семьи. Профессионально, чётко, без стресса. Документы приняли с первого раза. Спасибо большое команде!»</p>
+      <div class="rv-author">
+        <div class="rv-avatar">М</div>
+        <div>
+          <div class="rv-name">Мадина Т.</div>
+          <div class="rv-country">🇯🇵 Япония</div>
+        </div>
+      </div>
+    </div>
+    <div class="rv">
+      <div class="rv-stars">★★★★★</div>
+      <p class="rv-text">«Получила визу в Великобританию. Думала процесс займёт месяц, но агентство всё организовало за неделю. Очень приятный сервис и внимательный подход.»</p>
+      <div class="rv-author">
+        <div class="rv-avatar">З</div>
+        <div>
+          <div class="rv-name">Зарина Б.</div>
+          <div class="rv-country">🇬🇧 Великобритания</div>
+        </div>
+      </div>
+    </div>
+    <div class="rv">
+      <div class="rv-stars">★★★★★</div>
+      <p class="rv-text">«Обращались за визой в Канаду. Всё объяснили, помогли заполнить анкету, подготовили документы. Виза одобрена на 10 лет! Отличная работа.»</p>
+      <div class="rv-author">
+        <div class="rv-avatar">Р</div>
+        <div>
+          <div class="rv-name">Руслан А.</div>
+          <div class="rv-country">🇨🇦 Канада</div>
+        </div>
+      </div>
+    </div>
+    <div class="rv">
+      <div class="rv-stars">★★★★★</div>
+      <p class="rv-text">«Ездили в Турцию и Грузию, оформляли через Bon Voyage. Быстро, недорого, без очередей. Теперь только к ним обращаемся по всем визовым вопросам.»</p>
+      <div class="rv-author">
+        <div class="rv-avatar">Н</div>
+        <div>
+          <div class="rv-name">Нурлан О.</div>
+          <div class="rv-country">🇹🇷 Турция · 🇬🇪 Грузия</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divl"></div>
+
+<!-- CONTACTS -->
 <section class="contacts" id="contacts">
   <div class="stag">Найти нас</div>
   <h2 class="sectitle">Наш <span>Офис</span></h2>
@@ -523,18 +611,18 @@ const done = Astro.url.searchParams.get("done");
 
 <footer>
   <a class="flogo" href="#home">
-    <svg width="36" height="36" viewBox="0 0 46 46" fill="none">
-      <ellipse cx="23" cy="23" rx="20" ry="9" stroke="#1a6bb5" stroke-width="1.5" fill="none" transform="rotate(-30 23 23)" opacity="0.7"/>
+    <svg width="32" height="32" viewBox="0 0 46 46" fill="none">
+      <ellipse cx="23" cy="23" rx="20" ry="9" stroke="#1a6bb5" stroke-width="1.5" fill="none" transform="rotate(-30 23 23)" opacity="0.8"/>
       <g transform="translate(23,23) rotate(-35) translate(-8,-5)">
         <path d="M0,5 L14,2 L16,5 L14,8 Z" fill="#ffffff"/>
-        <path d="M4,5 L0,0 L2,5 Z" fill="#deeaff" opacity="0.8"/>
-        <path d="M4,5 L0,10 L2,5 Z" fill="#deeaff" opacity="0.8"/>
+        <path d="M4,5 L0,0 L2,5 Z" fill="#c8dbff" opacity="0.9"/>
+        <path d="M4,5 L0,10 L2,5 Z" fill="#c8dbff" opacity="0.9"/>
       </g>
-      <circle cx="23" cy="23" r="3" fill="#e8751a" opacity="0.6"/>
+      <circle cx="23" cy="23" r="2.5" fill="#e8751a" opacity="0.7"/>
     </svg>
-    <div class="flogo-text">
-      <span class="flogo-bon">BON <span style="color:var(--o)">VOYAGE</span></span>
-      <span class="flogo-voyage">Визовый центр</span>
+    <div>
+      <div class="flogo-bon">BON <span style="color:var(--o)">VOYAGE</span></div>
+      <div class="flogo-sub">Визовое агентство</div>
     </div>
   </a>
   <div class="fcopy">© 2026 BON VOYAGE — Алматы, Желтоксан 111А</div>
@@ -544,7 +632,7 @@ const done = Astro.url.searchParams.get("done");
   function toggleNav(){document.getElementById('nav').classList.toggle('open')}
   document.querySelectorAll('#nav a').forEach(a=>a.addEventListener('click',()=>document.getElementById('nav').classList.remove('open')));
   const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.style.opacity='1';x.target.style.transform='translateY(0)'}})},{threshold:.1});
-  document.querySelectorAll('.sc,.cb').forEach(el=>{el.style.opacity='0';el.style.transform='translateY(20px)';el.style.transition='opacity .55s ease,transform .55s ease';obs.observe(el)});
+  document.querySelectorAll('.sc,.rv,.cb').forEach(el=>{el.style.opacity='0';el.style.transform='translateY(20px)';el.style.transition='opacity .55s ease,transform .55s ease';obs.observe(el)});
 </script>
 </body>
 </html>
