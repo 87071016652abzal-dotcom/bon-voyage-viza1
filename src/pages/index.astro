@@ -8,7 +8,6 @@ if (Astro.request.method === "POST") {
     const phone = data.get("phone") || "Не указано";
     const country = data.get("country") || "Не указано";
 
-    // Пытаемся взять токен из разных возможных названий
     const token = import.meta.env.TELEGRAM_BOT_TOKEN || import.meta.env.TELEGRAM_TOKEN;
     const chatId = import.meta.env.TELEGRAM_CHAT_ID;
 
@@ -21,14 +20,10 @@ if (Astro.request.method === "POST") {
     const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: text,
-      }),
+      body: JSON.stringify({ chat_id: chatId, text: text }),
     });
 
     if (response.ok) {
-      // Если всё успешно, перекидываем на страницу с параметром done
       return Astro.redirect("/?done=true");
     } else {
       const errorData = await response.json();
@@ -44,142 +39,844 @@ const done = Astro.url.searchParams.get("done");
 
 <html lang="ru">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BON VOYAGE | Помощь в получении визы в Алматы</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body { background: #000; color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
-        header {
-            position: fixed; top: 0; width: 100%;
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 8%; background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(10px); z-index: 1000;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .logo { font-size: 22px; font-weight: 900; text-transform: uppercase; cursor: pointer; }
-        .logo span { color: #2563eb; }
-        nav a { color: #fff; text-decoration: none; margin-left: 30px; font-size: 13px; font-weight: 700; text-transform: uppercase; transition: 0.3s; }
-        nav a:hover { color: #2563eb; }
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), 
-                        url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&q=80&w=2074') no-repeat center center;
-            background-size: cover; min-height: 100vh;
-            display: flex; align-items: center; padding: 120px 8% 50px;
-        }
-        .grid { display: grid; grid-template-columns: 1fr; gap: 50px; width: 100%; }
-        @media (min-width: 1024px) { .grid { grid-template-columns: 1.2fr 1fr; } }
-        .hero-text h1 { font-size: clamp(32px, 5vw, 65px); line-height: 1.1; font-weight: 900; text-transform: uppercase; }
-        .hero-text p { font-size: 18px; margin-top: 25px; border-left: 4px solid #2563eb; padding-left: 20px; color: #ccc; }
-        .form-card { background: rgba(255, 255, 255, 0.05); padding: 40px; border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.1); }
-        input, select { width: 100%; background: #111; border: 1px solid #333; color: #fff; padding: 15px; margin-bottom: 15px; border-radius: 8px; font-family: inherit; outline: none; }
-        .btn { width: 100%; background: #2563eb; color: #fff; padding: 18px; font-weight: 900; text-transform: uppercase; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; }
-        .section { padding: 100px 8%; background: #0a0a0a; border-top: 1px solid #111; }
-        .section-title { font-size: 36px; font-weight: 900; text-transform: uppercase; margin-bottom: 50px; text-align: center; }
-        .section-title span { color: #2563eb; }
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-        .service-card { background: #111; padding: 40px; border-radius: 12px; border: 1px solid #222; }
-        .service-card h3 { margin-bottom: 15px; color: #2563eb; }
-        .contacts-content { display: grid; grid-template-columns: 1fr; gap: 40px; }
-        @media (min-width: 1024px) { .contacts-content { grid-template-columns: 1fr 2fr; } }
-        .contact-info div { margin-bottom: 25px; }
-        .contact-info h4 { color: #2563eb; text-transform: uppercase; margin-bottom: 5px; font-size: 14px; }
-        .map-container { width: 100%; height: 450px; border-radius: 15px; overflow: hidden; border: 2px solid #222; }
-        footer { padding: 40px; text-align: center; font-size: 13px; opacity: 0.5; border-top: 1px solid #222; }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BON VOYAGE | Визовый центр в Алматы</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Tenor+Sans&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --gold: #c9a84c;
+      --gold-light: #e2c97e;
+      --gold-dim: rgba(201,168,76,0.15);
+      --black: #080808;
+      --dark: #0f0f0f;
+      --card: #141414;
+      --border: rgba(201,168,76,0.2);
+      --text: #e8e0d0;
+      --muted: #8a8070;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: 'Tenor Sans', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* Custom cursor */
+    .cursor {
+      position: fixed;
+      width: 8px; height: 8px;
+      background: var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transition: transform 0.1s;
+      transform: translate(-50%, -50%);
+    }
+    .cursor-ring {
+      position: fixed;
+      width: 32px; height: 32px;
+      border: 1px solid rgba(201,168,76,0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transition: transform 0.15s ease, width 0.3s, height 0.3s;
+      transform: translate(-50%, -50%);
+    }
+
+    /* Noise overlay */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9997;
+      opacity: 0.4;
+    }
+
+    /* HEADER */
+    header {
+      position: fixed; top: 0; width: 100%;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 24px 6%;
+      background: rgba(8,8,8,0.85);
+      backdrop-filter: blur(20px);
+      z-index: 1000;
+      border-bottom: 1px solid var(--border);
+      animation: fadeDown 0.8s ease both;
+    }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 300;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      cursor: none;
+    }
+    .logo em {
+      font-style: normal;
+      color: var(--gold);
+    }
+
+    nav { display: flex; align-items: center; gap: 40px; }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+      cursor: none;
+    }
+    nav a:hover { color: var(--gold); }
+
+    .nav-cta {
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold) !important;
+      padding: 10px 24px;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.3s, color 0.3s !important;
+      cursor: none;
+    }
+    .nav-cta:hover {
+      background: var(--gold) !important;
+      color: var(--black) !important;
+    }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 140px 6% 80px;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&q=80&w=2074') center/cover no-repeat;
+      filter: brightness(0.25) saturate(0.6);
+      transform: scale(1.05);
+      animation: slowZoom 20s ease infinite alternate;
+    }
+
+    @keyframes slowZoom {
+      from { transform: scale(1.05); }
+      to { transform: scale(1.12); }
+    }
+
+    .hero-gradient {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(8,8,8,0.6) 0%, transparent 50%, rgba(8,8,8,0.8) 100%);
+    }
+
+    .hero-line {
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+      left: 6%;
+      opacity: 0.3;
+    }
+
+    .hero-content {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 80px;
+      width: 100%;
+      align-items: center;
+    }
+
+    .hero-label {
+      font-size: 11px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      animation: fadeUp 0.8s 0.2s ease both;
+    }
+    .hero-label::before {
+      content: '';
+      width: 40px; height: 1px;
+      background: var(--gold);
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(42px, 6vw, 88px);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      animation: fadeUp 0.8s 0.4s ease both;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--gold-light);
+    }
+
+    .hero-desc {
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--muted);
+      margin-top: 30px;
+      max-width: 480px;
+      animation: fadeUp 0.8s 0.6s ease both;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 50px;
+      margin-top: 50px;
+      animation: fadeUp 0.8s 0.8s ease both;
+    }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* FORM */
+    .form-card {
+      background: rgba(20,20,20,0.9);
+      border: 1px solid var(--border);
+      padding: 48px 40px;
+      backdrop-filter: blur(20px);
+      animation: fadeUp 0.8s 0.5s ease both;
+      position: relative;
+    }
+
+    .form-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .form-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .form-subtitle {
+      text-align: center;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 36px;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 16px;
+    }
+    .input-group input,
+    .input-group select {
+      width: 100%;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-bottom: 1px solid rgba(201,168,76,0.3);
+      color: var(--text);
+      padding: 16px 18px;
+      font-family: 'Tenor Sans', sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      outline: none;
+      transition: border-color 0.3s, background 0.3s;
+      -webkit-appearance: none;
+      cursor: none;
+    }
+    .input-group input::placeholder { color: var(--muted); }
+    .input-group input:focus,
+    .input-group select:focus {
+      border-color: var(--gold);
+      background: rgba(201,168,76,0.04);
+    }
+    .input-group select option { background: #1a1a1a; color: var(--text); }
+
+    .btn-submit {
+      width: 100%;
+      background: var(--gold);
+      color: var(--black);
+      border: none;
+      padding: 18px;
+      font-family: 'Tenor Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      cursor: none;
+      margin-top: 8px;
+      transition: background 0.3s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-submit::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.1);
+      transform: translateX(-100%);
+      transition: transform 0.4s;
+    }
+    .btn-submit:hover::after { transform: translateX(0); }
+    .btn-submit:hover { background: var(--gold-light); }
+
+    .form-note {
+      text-align: center;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-top: 16px;
+      opacity: 0.6;
+    }
+
+    /* SUCCESS */
+    .success-wrap { text-align: center; padding: 20px 0; }
+    .success-icon {
+      width: 60px; height: 60px;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      font-size: 24px;
+    }
+    .success-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px;
+      font-weight: 300;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .success-text { color: var(--muted); font-size: 13px; line-height: 1.7; }
+    .success-back {
+      display: inline-block;
+      margin-top: 28px;
+      color: var(--gold);
+      text-decoration: none;
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--gold);
+      padding-bottom: 2px;
+      cursor: none;
+    }
+
+    /* DIVIDER */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 0 6%;
+      opacity: 0.2;
+    }
+    .divider-line { flex: 1; height: 1px; background: var(--gold); }
+    .divider-diamond {
+      width: 8px; height: 8px;
+      border: 1px solid var(--gold);
+      transform: rotate(45deg);
+    }
+
+    /* SERVICES */
+    .services {
+      padding: 120px 6%;
+      background: var(--dark);
+      position: relative;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 70px;
+      gap: 30px;
+    }
+
+    .section-eyebrow {
+      font-size: 10px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .section-eyebrow::before {
+      content: '';
+      width: 30px; height: 1px;
+      background: var(--gold);
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(36px, 4vw, 60px);
+      font-weight: 300;
+      line-height: 1.1;
+    }
+    .section-title em { font-style: italic; color: var(--gold-light); }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .service-card {
+      background: var(--card);
+      padding: 50px 40px;
+      border: 1px solid transparent;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.4s, transform 0.3s;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      transform: scaleX(0);
+      transition: transform 0.4s;
+    }
+    .service-card:hover { border-color: var(--border); transform: translateY(-4px); }
+    .service-card:hover::before { transform: scaleX(1); }
+
+    .service-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 60px;
+      font-weight: 300;
+      color: rgba(201,168,76,0.1);
+      line-height: 1;
+      margin-bottom: 20px;
+      transition: color 0.4s;
+    }
+    .service-card:hover .service-num { color: rgba(201,168,76,0.2); }
+
+    .service-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 300;
+      color: var(--gold-light);
+      margin-bottom: 16px;
+    }
+
+    .service-desc {
+      font-size: 13px;
+      line-height: 1.8;
+      color: var(--muted);
+    }
+
+    .service-tag {
+      display: inline-block;
+      margin-top: 24px;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border-bottom: 1px solid var(--gold);
+      padding-bottom: 2px;
+    }
+
+    /* CONTACTS */
+    .contacts {
+      padding: 120px 6%;
+      background: var(--black);
+    }
+
+    .contacts-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 80px;
+      margin-top: 70px;
+      align-items: start;
+    }
+
+    .contact-block { margin-bottom: 44px; }
+    .contact-block:last-child { margin-bottom: 0; }
+
+    .contact-label {
+      font-size: 10px;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .contact-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 300;
+      line-height: 1.5;
+      color: var(--text);
+    }
+
+    .contact-sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 4px;
+      letter-spacing: 0.05em;
+    }
+
+    .map-wrap {
+      position: relative;
+      height: 460px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .map-wrap::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 1px solid var(--gold);
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.3;
+      transform: translate(8px, 8px);
+    }
+    .map-wrap iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      filter: grayscale(1) invert(0.9) contrast(0.8) brightness(0.7);
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 40px 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border);
+      gap: 20px;
+    }
+
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .footer-copy {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    /* MOBILE NAV */
+    .burger { display: none; flex-direction: column; gap: 5px; cursor: none; }
+    .burger span { width: 24px; height: 1px; background: var(--gold); display: block; transition: 0.3s; }
+
+    /* MOBILE */
+    @media (max-width: 1024px) {
+      .hero-content { grid-template-columns: 1fr; gap: 50px; }
+      .form-card { max-width: 500px; width: 100%; }
+      .services-grid { grid-template-columns: 1fr; }
+      .contacts-grid { grid-template-columns: 1fr; gap: 50px; }
+      .section-header { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 768px) {
+      header { padding: 20px 5%; }
+      nav { display: none; }
+      nav.open {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        inset: 0;
+        background: rgba(8,8,8,0.98);
+        align-items: center;
+        justify-content: center;
+        gap: 32px;
+        z-index: 999;
+      }
+      nav.open a { font-size: 14px; }
+      .burger { display: flex; z-index: 1001; }
+
+      .hero { padding: 100px 5% 60px; }
+      .hero-stats { gap: 30px; flex-wrap: wrap; }
+
+      .services { padding: 80px 5%; }
+      .service-card { padding: 36px 28px; }
+
+      .contacts { padding: 80px 5%; }
+      .map-wrap { height: 300px; }
+
+      .form-card { padding: 36px 28px; }
+
+      footer { flex-direction: column; text-align: center; padding: 30px 5%; }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="logo" onclick="window.scrollTo(0,0)">BON <span>VOYAGE</span></div>
-        <nav>
-            <a href="#home">Главная</a>
-            <a href="#services">Услуги</a>
-            <a href="#contacts">Контакты</a>
-        </nav>
-    </header>
 
-    <section class="hero" id="home">
-        <div class="grid">
-            <div class="hero-text">
-                <h1>Помощь в получений визы <br> <span style="color:#2563eb">АЛМАТЫ</span></h1>
-                <p>Профессиональная помощь в получении виз. Желтоксан 111 А — ваш путь в любую точку мира начинается здесь.</p>
-            </div>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
 
-            <div class="form-card">
-                {done ? (
-                    <div style="text-align: center;">
-                        <h2 style="color: #2563eb;">СПАСИБО!</h2>
-                        <p style="margin-top:10px;">Мы скоро свяжемся с вами.</p>
-                        <a href="/" style="display:inline-block; margin-top:20px; color:#fff;">Назад</a>
-                    </div>
-                ) : (
-                    <form method="POST" autocomplete="off">
-                        <h2 style="margin-bottom:20px; text-align:center;">ОСТАВИТЬ ЗАЯВКУ</h2>
-                        <input type="text" name="name" placeholder="Имя" autocomplete="one-time-code" required />
-                        <input type="text" name="phone" placeholder="Телефон" autocomplete="one-time-code" required />
-                        <select name="country" required>
-                            <option value="" disabled selected>Куда летим?</option>
-                            <option>ШЕНГЕН</option>
-                            <option>США</option>
-                            <option>КОРЕЯ</option>
-                        </select>
-                        <button type="submit" class="btn">Отправить</button>
-                    </form>
-                )}
-            </div>
+  <header>
+    <div class="logo" onclick="window.scrollTo(0,0)">Bon <em>Voyage</em></div>
+    <nav id="nav">
+      <a href="#home">Главная</a>
+      <a href="#services">Услуги</a>
+      <a href="#contacts">Контакты</a>
+      <a href="#home" class="nav-cta">Оставить заявку</a>
+    </nav>
+    <div class="burger" id="burger" onclick="toggleNav()">
+      <span></span><span></span><span></span>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-bg"></div>
+    <div class="hero-gradient"></div>
+    <div class="hero-line"></div>
+
+    <div class="hero-content">
+      <div class="hero-text">
+        <div class="hero-label">Визовый центр — Алматы</div>
+        <h1 class="hero-title">
+          Ваш путь<br>
+          в <em>любую</em><br>
+          точку мира
+        </h1>
+        <p class="hero-desc">
+          Профессиональная помощь в получении виз любой сложности. 
+          Желтоксан 111А — мы берём на себя всё, чтобы вы просто наслаждались путешествием.
+        </p>
+        <div class="hero-stats">
+          <div>
+            <div class="stat-num">500+</div>
+            <div class="stat-label">Виз в год</div>
+          </div>
+          <div>
+            <div class="stat-num">98%</div>
+            <div class="stat-label">Одобрений</div>
+          </div>
+          <div>
+            <div class="stat-num">5 лет</div>
+            <div class="stat-label">Опыта</div>
+          </div>
         </div>
-    </section>
+      </div>
 
-    <section class="section" id="services">
-        <h2 class="section-title">Наши <span>Услуги</span></h2>
-        <div class="services-grid">
-            <div class="service-card">
-                <h3>Шенген</h3>
-                <p>Европа стала ближе. Помогаем с записью и полным пакетом документов.</p>
-            </div>
-            <div class="service-card">
-                <h3>США</h3>
-                <p>Заполнение анкеты DS-160 и детальная подготовка к интервью.</p>
-            </div>
-            <div class="service-card">
-                <h3>Азия</h3>
-                <p>Визы Японию и Корею. Минимум документов — максимум результата.</p>
-            </div>
+      <div class="form-card">
+        {done ? (
+          <div class="success-wrap">
+            <div class="success-icon">✓</div>
+            <div class="success-title">Спасибо</div>
+            <p class="success-text">Ваша заявка получена.<br>Мы свяжемся с вами в ближайшее время.</p>
+            <a href="/" class="success-back">← Вернуться</a>
+          </div>
+        ) : (
+          <>
+            <div class="form-title">Оставить заявку</div>
+            <div class="form-subtitle">Консультация бесплатна</div>
+            <form method="POST" autocomplete="off">
+              <div class="input-group">
+                <input type="text" name="name" placeholder="Ваше имя" autocomplete="one-time-code" required />
+              </div>
+              <div class="input-group">
+                <input type="text" name="phone" placeholder="Номер телефона" autocomplete="one-time-code" required />
+              </div>
+              <div class="input-group">
+                <select name="country" required>
+                  <option value="" disabled selected>Куда летим?</option>
+                  <option>ШЕНГЕН</option>
+                  <option>США</option>
+                  <option>КОРЕЯ</option>
+                  <option>ЯПОНИЯ</option>
+                </select>
+              </div>
+              <button type="submit" class="btn-submit">Отправить заявку</button>
+            </form>
+            <p class="form-note">Ответим в течение 1 рабочего часа</p>
+          </>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="divider-diamond"></div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <div class="section-header">
+      <div>
+        <div class="section-eyebrow">Что мы делаем</div>
+        <h2 class="section-title">Наши <em>услуги</em></h2>
+      </div>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-num">01</div>
+        <div class="service-name">Шенген</div>
+        <p class="service-desc">Европа стала ближе. Полное сопровождение: запись в консульство, сбор и проверка документов, заполнение анкет.</p>
+        <span class="service-tag">Франция · Германия · Италия</span>
+      </div>
+      <div class="service-card">
+        <div class="service-num">02</div>
+        <div class="service-name">США</div>
+        <p class="service-desc">Заполнение анкеты DS-160, детальная подготовка к собеседованию. Максимальные шансы на одобрение.</p>
+        <span class="service-tag">B1 · B2 · F1</span>
+      </div>
+      <div class="service-card">
+        <div class="service-num">03</div>
+        <div class="service-name">Азия</div>
+        <p class="service-desc">Визы в Японию и Корею. Минимум документов, максимум результата. Оформление в кратчайшие сроки.</p>
+        <span class="service-tag">Япония · Корея</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTS -->
+  <section class="contacts" id="contacts">
+    <div class="section-eyebrow">Найти нас</div>
+    <h2 class="section-title">Наш <em>офис</em></h2>
+
+    <div class="contacts-grid">
+      <div>
+        <div class="contact-block">
+          <div class="contact-label">Адрес</div>
+          <div class="contact-value">ул. Желтоксан, 111А<br>офис 1</div>
+          <div class="contact-sub">угол ул. Толе Би, г. Алматы</div>
         </div>
-    </section>
-
-    <section class="section" id="contacts">
-        <h2 class="section-title">Наш <span>Офис</span></h2>
-        <div class="contacts-content">
-            <div class="contact-info">
-                <div>
-                    <h4>Наш адрес</h4>
-                    <p>г. Алматы, ул. Желтоксан, 111 А офис 1</p>
-                    <p>(угол ул. Толе Би)</p>
-                </div>
-                <div>
-                    <h4>Телефон</h4>
-                    <p>+7 778 004 44 13</p>
-                </div>
-                <div>
-                    <h4>График</h4>
-                    <p>Пн-Пт: 09:00 — 18:00</p>
-                </div>
-            </div>
-            <div class="map-container">
-                <iframe 
-                    src="https://yandex.ru/map-widget/v1/?ll=76.939223%2C43.254714&z=16&pt=76.939223%2C43.254714,pm2blm" 
-                    width="100%" 
-                    height="100%" 
-                    frameborder="0" 
-                    allowfullscreen="true">
-                </iframe>
-            </div>
+        <div class="contact-block">
+          <div class="contact-label">Телефон</div>
+          <div class="contact-value">+7 778 004 44 13</div>
         </div>
-    </section>
+        <div class="contact-block">
+          <div class="contact-label">График работы</div>
+          <div class="contact-value">Пн — Пт</div>
+          <div class="contact-sub">09:00 — 18:00</div>
+        </div>
+      </div>
 
-    <footer>© 2026 BON VOYAGE | Алматы, Желтоксан 111 А</footer>
+      <div class="map-wrap">
+        <iframe
+          src="https://yandex.ru/map-widget/v1/?ll=76.939223%2C43.254714&z=16&pt=76.939223%2C43.254714,pm2blm"
+          allowfullscreen="true">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Bon Voyage</div>
+    <div class="footer-copy">© 2026 BON VOYAGE — Алматы, Желтоксан 111А</div>
+  </footer>
+
+  <script>
+    // Custom cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx + 'px';
+      cursor.style.top = my + 'px';
+    });
+
+    function animateRing() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    document.querySelectorAll('a, button, input, select, .service-card').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        ring.style.width = '50px';
+        ring.style.height = '50px';
+        ring.style.borderColor = 'rgba(201,168,76,0.8)';
+      });
+      el.addEventListener('mouseleave', () => {
+        ring.style.width = '32px';
+        ring.style.height = '32px';
+        ring.style.borderColor = 'rgba(201,168,76,0.5)';
+      });
+    });
+
+    // Mobile nav
+    function toggleNav() {
+      document.getElementById('nav').classList.toggle('open');
+    }
+
+    document.querySelectorAll('#nav a').forEach(a => {
+      a.addEventListener('click', () => {
+        document.getElementById('nav').classList.remove('open');
+      });
+    });
+
+    // Intersection observer for animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.service-card, .contact-block').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
+      el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+      observer.observe(el);
+    });
+  </script>
 </body>
 </html>
