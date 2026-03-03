@@ -659,7 +659,9 @@ const done = Astro.url.searchParams.get("done");
   <div class="cursor-ring" id="cursorRing"></div>
 
   <header>
-    <div class="logo" onclick="window.scrollTo(0,0)">Bon <em>Voyage</em></div>
+    <div class="logo" onclick="window.scrollTo(0,0)">
+      <img src="/logo.png" alt="Bon Voyage" style="height:48px;width:auto;object-fit:contain;" />
+    </div>
     <nav id="nav">
       <a href="#home">Главная</a>
       <a href="#services">Услуги</a>
