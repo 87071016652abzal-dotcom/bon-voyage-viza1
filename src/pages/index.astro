@@ -225,14 +225,14 @@ const done = Astro.url.searchParams.get("done");
     .vt-list li::before{content:'✓';color:var(--o);flex-shrink:0;font-weight:700}
 
     /* FLAGS SCROLL */
-    .flags-section{padding:50px 6%;background:var(--bg3);overflow:hidden}
+    .flags-section{padding:50px 0;background:var(--bg3);overflow:hidden;max-width:100%;box-sizing:border-box}
     .flags-title{font-size:14px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--mt);text-align:center;margin-bottom:30px}
-    .flags-track{display:flex;gap:20px;animation:scroll 30s linear infinite;width:max-content}
+    .flags-track{display:flex;gap:20px;animation:scrollf 30s linear infinite;width:max-content}
     .flags-track:hover{animation-play-state:paused}
     @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
     .flag-item{display:flex;flex-direction:column;align-items:center;gap:10px;flex-shrink:0;width:80px}
     .flag-item .fi{font-size:36px}
-    .flag-item span{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--mt);text-align:center;margin-top:8px}
+    .flag-item span{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--mt);text-align:center}
 
     /* DOCS */
     .docs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
@@ -446,7 +446,7 @@ const done = Astro.url.searchParams.get("done");
 
 <!-- FLAGS -->
 <div class="flags-sec">
-  <div class="flags-label">Оформляем визы в 30+ стран мира</div>
+  <div class="flags-label" style="margin-bottom:40px">Оформляем визы в 30+ стран мира</div>
   <div class="flags-wrap">
     <div class="flags-track">
       <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/de.png" /><span>Германия</span></div>
