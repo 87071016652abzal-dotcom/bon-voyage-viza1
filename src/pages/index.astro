@@ -445,44 +445,52 @@ const done = Astro.url.searchParams.get("done");
 
 <div class="divl"></div>
 
-<!-- FLAGS SCROLL -->
-<div class="flags-section">
-  <div class="flags-title">Оформляем визы в 30+ стран мира</div>
-  <div style="overflow:hidden">
+<!-- FLAGS -->
+<div class="flags-sec">
+  <div class="flags-label">Оформляем визы в 30+ стран мира</div>
+  <div class="flags-wrap">
     <div class="flags-track">
-      <div class="flag-item"><div class="fi">🇩🇪</div><span>Германия</span></div>
-      <div class="flag-item"><div class="fi">🇫🇷</div><span>Франция</span></div>
-      <div class="flag-item"><div class="fi">🇮🇹</div><span>Италия</span></div>
-      <div class="flag-item"><div class="fi">🇪🇸</div><span>Испания</span></div>
-      <div class="flag-item"><div class="fi">🇳🇱</div><span>Нидерланды</span></div>
-      <div class="flag-item"><div class="fi">🇦🇹</div><span>Австрия</span></div>
-      <div class="flag-item"><div class="fi">🇨🇿</div><span>Чехия</span></div>
-      <div class="flag-item"><div class="fi">🇵🇱</div><span>Польша</span></div>
-      <div class="flag-item"><div class="fi">🇺🇸</div><span>США</span></div>
-      <div class="flag-item"><div class="fi">🇬🇧</div><span>Великобритания</span></div>
-      <div class="flag-item"><div class="fi">🇨🇦</div><span>Канада</span></div>
-      <div class="flag-item"><div class="fi">🇦🇺</div><span>Австралия</span></div>
-      <div class="flag-item"><div class="fi">🇳🇿</div><span>Нов. Зеландия</span></div>
-      <div class="flag-item"><div class="fi">🇯🇵</div><span>Япония</span></div>
-      <div class="flag-item"><div class="fi">🇰🇷</div><span>Корея</span></div>
-      <div class="flag-item"><div class="fi">🇨🇳</div><span>Китай</span></div>
-      <div class="flag-item"><div class="fi">🇮🇳</div><span>Индия</span></div>      
-      <div class="flag-item"><div class="fi">🇿🇦</div><span>Юж. Африка</span></div>
-      <div class="flag-item"><div class="fi">🇪🇬</div><span>Египет</span></div>
-      <div class="flag-item"><div class="fi">🇲🇦</div><span>Марокко</span></div>
-      <!-- дублируем для бесконечной прокрутки -->
-      <div class="flag-item"><div class="fi">🇩🇪</div><span>Германия</span></div>
-      <div class="flag-item"><div class="fi">🇫🇷</div><span>Франция</span></div>
-      <div class="flag-item"><div class="fi">🇮🇹</div><span>Италия</span></div>
-      <div class="flag-item"><div class="fi">🇪🇸</div><span>Испания</span></div>
-      <div class="flag-item"><div class="fi">🇳🇱</div><span>Нидерланды</span></div>
-      <div class="flag-item"><div class="fi">🇦🇹</div><span>Австрия</span></div>
-      <div class="flag-item"><div class="fi">🇺🇸</div><span>США</span></div>
-      <div class="flag-item"><div class="fi">🇬🇧</div><span>Великобритания</span></div>
-      <div class="flag-item"><div class="fi">🇨🇦</div><span>Канада</span></div>
-      <div class="flag-item"><div class="fi">🇦🇺</div><span>Австралия</span></div>
-      <div class="flag-item"><div class="fi">🇯🇵</div><span>Япония</span></div>
-      <div class="flag-item"><div class="fi">🇰🇷</div><span>Корея</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/de.png" /><span>Германия</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/fr.png" /><span>Франция</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/it.png" /><span>Италия</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/es.png" /><span>Испания</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/nl.png" /><span>Нидерланды</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/at.png" /><span>Австрия</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/cz.png" /><span>Чехия</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/pl.png" /><span>Польша</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/us.png" /><span>США</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/gb.png" /><span>Великобритания</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/ca.png" /><span>Канада</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/au.png" /><span>Австралия</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/nz.png" /><span>Нов. Зеландия</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/jp.png" /><span>Япония</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/kr.png" /><span>Корея</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/cn.png" /><span>Китай</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/in.png" /><span>Индия</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/th.png" /><span>Таиланд</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/ae.png" /><span>ОАЭ</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/tr.png" /><span>Турция</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/ge.png" /><span>Грузия</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/za.png" /><span>Юж. Африка</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/eg.png" /><span>Египет</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/ma.png" /><span>Марокко</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/sg.png" /><span>Сингапур</span></div>
+      <!-- дубли для бесконечной прокрутки -->
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/de.png" /><span>Германия</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/fr.png" /><span>Франция</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/it.png" /><span>Италия</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/es.png" /><span>Испания</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/nl.png" /><span>Нидерланды</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/at.png" /><span>Австрия</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/us.png" /><span>США</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/gb.png" /><span>Великобритания</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/ca.png" /><span>Канада</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/au.png" /><span>Австралия</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/jp.png" /><span>Япония</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/kr.png" /><span>Корея</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/tr.png" /><span>Турция</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/ge.png" /><span>Грузия</span></div>
+      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/sg.png" /><span>Сингапур</span></div>
     </div>
   </div>
 </div>
