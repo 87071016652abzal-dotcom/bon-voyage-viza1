@@ -105,7 +105,12 @@ const done = Astro.url.searchParams.get("done");
     .wmap-wrap{position:absolute;right:0;top:50%;transform:translateY(-50%);width:58%;z-index:2;pointer-events:none;opacity:.58}
     .wmap-wrap svg{width:100%;height:auto}
     @keyframes mapglow{0%,100%{filter:drop-shadow(0 0 18px rgba(200,169,74,.22))}50%{filter:drop-shadow(0 0 32px rgba(200,169,74,.42))}}
-    .wmap-svg{animation:mapglow 4s ease-in-out infinite}
+    
+    .wmap-svg{
+      animation:mapglow 4s ease-in-out infinite;
+      shape-rendering: geometricPrecision; /* Четкость */
+    }
+    .wmap-svg path { transition: all 0.3s ease; }
 
     /* ТОЧКИ ГОРОДОВ */
     .mdot{position:absolute;z-index:4;pointer-events:none}
@@ -347,76 +352,35 @@ const done = Astro.url.searchParams.get("done");
   <div class="burger" id="burger" onclick="toggleNav()"><span></span><span></span><span></span></div>
 </header>
 
-<!-- HERO -->
 <section class="hero" id="home">
   <div class="hero-grad"></div>
   <div class="hero-grid"></div>
 
-  <!-- ЗОЛОТАЯ КАРТА МИРА SVG -->
   <div class="wmap-wrap">
-    <svg class="wmap-svg" viewBox="0 0 1009 665" xmlns="http://www.w3.org/2000/svg" fill="#c8a94a">
-      <path d="M 152 75 L 168 62 L 195 58 L 220 65 L 245 72 L 265 88 L 275 108 L 270 130 L 258 148 L 240 162 L 218 172 L 195 178 L 172 168 L 155 150 L 142 128 L 138 105 L 145 88 Z"/>
-      <path d="M 130 78 L 148 70 L 152 88 L 140 95 L 125 90 Z"/>
-      <path d="M 210 172 L 232 168 L 248 178 L 255 198 L 248 218 L 232 228 L 215 222 L 205 205 L 206 188 Z"/>
-      <path d="M 225 228 L 238 222 L 248 232 L 250 252 L 242 265 L 228 268 L 218 258 L 218 242 Z"/>
-      <path d="M 230 22 L 258 15 L 278 22 L 285 38 L 278 52 L 260 58 L 242 52 L 232 38 Z"/>
-      <path d="M 242 278 L 265 268 L 288 272 L 305 288 L 312 315 L 308 345 L 295 375 L 278 405 L 260 428 L 242 435 L 225 422 L 215 395 L 212 362 L 218 330 L 228 305 Z"/>
-      <path d="M 462 82 L 480 75 L 498 78 L 512 90 L 515 108 L 505 122 L 490 128 L 474 122 L 462 108 L 458 95 Z"/>
-      <path d="M 472 128 L 490 125 L 505 132 L 512 148 L 508 162 L 492 168 L 478 162 L 468 148 L 468 135 Z"/>
-      <path d="M 435 100 L 455 95 L 462 108 L 455 120 L 440 122 L 428 112 L 430 100 Z"/>
-      <path d="M 448 65 L 462 58 L 475 62 L 480 75 L 468 80 L 452 76 Z"/>
-      <path d="M 472 45 L 488 38 L 505 42 L 512 58 L 505 70 L 490 72 L 476 65 Z"/>
-      <path d="M 488 28 L 500 22 L 510 28 L 512 42 L 502 48 L 490 44 Z"/>
-      <path d="M 440 85 L 452 80 L 458 90 L 452 100 L 440 98 Z"/>
-      <path d="M 468 175 L 492 168 L 518 172 L 538 188 L 548 215 L 545 248 L 535 282 L 518 318 L 498 348 L 475 368 L 452 362 L 435 338 L 425 305 L 422 268 L 428 232 L 440 202 Z"/>
-      <path d="M 538 188 L 558 182 L 572 192 L 568 212 L 552 218 L 538 208 Z"/>
-      <path d="M 560 322 L 568 312 L 578 318 L 578 338 L 568 345 L 558 338 Z"/>
-      <path d="M 518 75 L 548 62 L 592 55 L 638 52 L 685 58 L 728 68 L 762 82 L 788 98 L 798 118 L 792 138 L 772 152 L 748 158 L 718 155 L 688 162 L 658 168 L 628 162 L 598 152 L 572 138 L 548 122 L 530 105 L 518 88 Z"/>
-      <path d="M 558 178 L 578 172 L 598 178 L 608 198 L 605 218 L 590 228 L 572 222 L 560 205 L 558 188 Z"/>
-      <path d="M 628 162 L 652 158 L 668 168 L 672 192 L 665 218 L 652 242 L 635 252 L 618 242 L 612 218 L 615 192 L 622 172 Z"/>
-      <path d="M 718 155 L 745 152 L 762 165 L 762 188 L 748 202 L 728 205 L 715 192 L 712 172 Z"/>
-      <path d="M 748 188 L 768 182 L 782 192 L 780 212 L 764 218 L 748 208 Z"/>
-      <path d="M 808 95 L 822 88 L 832 95 L 830 112 L 818 118 L 806 110 Z"/>
-      <path d="M 822 78 L 835 72 L 845 78 L 842 92 L 830 95 L 820 88 Z"/>
-      <path d="M 845 62 L 855 58 L 862 65 L 858 78 L 848 80 L 840 72 Z"/>
-      <!-- Казахстан — оранжевый -->
-      <path d="M 590 108 L 628 102 L 658 108 L 672 125 L 665 142 L 642 150 L 615 148 L 595 135 L 585 118 Z" fill="#e8751a" opacity="0.95"/>
-      <path d="M 748 368 L 782 355 L 822 352 L 858 360 L 882 380 L 892 408 L 885 438 L 865 460 L 838 472 L 808 475 L 778 462 L 755 438 L 742 408 L 742 382 Z"/>
-      <path d="M 908 452 L 918 442 L 928 448 L 926 465 L 914 470 L 906 462 Z"/>
-      <path d="M 918 475 L 928 468 L 936 475 L 932 490 L 920 492 L 912 484 Z"/>
-      <path d="M 205 158 L 218 154 L 225 162 L 218 170 L 206 166 Z"/>
+    <svg class="wmap-svg" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg">
+      <path d="M150,140 L170,130 L210,135 L230,170 L200,210 L170,200 L150,170 Z M420,130 L470,110 L520,120 L550,160 L500,210 L440,190 Z M620,80 C720,60 820,100 850,230 C720,330 620,300 590,260 Z M270,330 L370,320 L420,400 L320,500 L250,450 Z M750,430 L880,410 L920,500 L800,530 Z" fill="#c8a94a" opacity="0.3"/>
+      <path d="M580,110 L610,105 L640,115 L650,135 L625,150 L585,145 Z" fill="#e8751a" opacity="0.9">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" repeatCount="indefinite" />
+      </path>
     </svg>
   </div>
 
-  <!-- Точки городов -->
-  <div class="mdot" style="right:41%;top:38%">
+  <div class="mdot" style="right:40%;top:32%">
     <div class="mdot-inner" style="background:#e8751a;box-shadow:0 0 10px #e8751a;color:#e8751a">
       <div class="mdot-ring"></div><div class="mdot-ring2"></div>
     </div>
     <div class="dot-label">Алматы</div>
   </div>
-  <div class="mdot" style="right:54%;top:22%">
-    <div class="mdot-inner" style="background:#c8a94a;box-shadow:0 0 8px #c8a94a;color:#c8a94a"><div class="mdot-ring"></div></div>
-  </div>
-  <div class="mdot" style="right:79%;top:30%">
-    <div class="mdot-inner" style="background:#c8a94a;box-shadow:0 0 8px #c8a94a;color:#c8a94a"><div class="mdot-ring"></div></div>
-  </div>
-  <div class="mdot" style="right:16%;top:26%">
-    <div class="mdot-inner" style="background:#c8a94a;box-shadow:0 0 8px #c8a94a;color:#c8a94a"><div class="mdot-ring"></div></div>
-  </div>
-  <div class="mdot" style="right:44%;top:42%">
-    <div class="mdot-inner" style="background:#c8a94a;box-shadow:0 0 8px #c8a94a;color:#c8a94a"><div class="mdot-ring"></div></div>
-  </div>
+  <div class="mdot" style="right:54%;top:22%"><div class="mdot-inner" style="background:#c8a94a;color:#c8a94a"><div class="mdot-ring"></div></div></div>
+  <div class="mdot" style="right:79%;top:30%"><div class="mdot-inner" style="background:#c8a94a;color:#c8a94a"><div class="mdot-ring"></div></div></div>
+  <div class="mdot" style="right:16%;top:26%"><div class="mdot-inner" style="background:#c8a94a;color:#c8a94a"><div class="mdot-ring"></div></div></div>
 
-  <!-- Линии маршрутов -->
   <svg class="routes-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-    <path d="M 59 38 Q 54 25 46 22" stroke="rgba(200,169,74,0.35)" stroke-width=".2" fill="none" stroke-dasharray=".6,.8"/>
-    <path d="M 59 38 Q 40 20 21 30" stroke="rgba(200,169,74,0.22)" stroke-width=".2" fill="none" stroke-dasharray=".6,1"/>
-    <path d="M 59 38 Q 72 28 84 26" stroke="rgba(200,169,74,0.3)" stroke-width=".2" fill="none" stroke-dasharray=".6,.8"/>
-    <path d="M 59 38 Q 58 40 56 42" stroke="rgba(232,117,26,0.4)" stroke-width=".2" fill="none" stroke-dasharray=".6,.7"/>
+    <path d="M 60 32 Q 54 25 46 22" stroke="rgba(200,169,74,0.35)" stroke-width=".2" fill="none" stroke-dasharray=".6,.8"/>
+    <path d="M 60 32 Q 40 20 21 30" stroke="rgba(200,169,74,0.22)" stroke-width=".2" fill="none" stroke-dasharray=".6,1"/>
+    <path d="M 60 32 Q 72 28 84 26" stroke="rgba(200,169,74,0.3)" stroke-width=".2" fill="none" stroke-dasharray=".6,.8"/>
   </svg>
 
-  <!-- Панели статистики -->
   <div class="dpanels">
     <div class="dp"><div class="dp-l">Шенген · одобрений</div><div class="dp-bar"><div class="dp-fill" style="width:94%"></div></div><div class="dp-v">94%</div></div>
     <div class="dp"><div class="dp-l">США · одобрений</div><div class="dp-bar"><div class="dp-fill" style="width:87%"></div></div><div class="dp-v">87%</div></div>
@@ -427,7 +391,7 @@ const done = Astro.url.searchParams.get("done");
     <div>
       <div class="hbadge"><b></b>Визовое агентство — Алматы</div>
       <h1>Помощь<br>в получении<br><em>визы</em></h1>
-      <p class="hdesc">Профессиональная помощь в получении виз любой сложности. Желтоксан 111А — мы берём на себя всё, чтобы вы просто наслаждались путешествием. Работаем со всеми типами виз: туристические, рабочие, студенческие, деловые.</p>
+      <p class="hdesc">Профессиональная помощь в получении виз любой сложности. Желтоксан 111А — мы берём на себя всё, чтобы вы просто наслаждались путешествием.</p>
       <div class="hstats">
         <div><div class="sn">1000+</div><div class="sl">Виз в год</div></div>
         <div><div class="sn">98%</div><div class="sl">Одобрений</div></div>
@@ -448,21 +412,13 @@ const done = Astro.url.searchParams.get("done");
           <div class="ft">Оставить заявку</div>
           <div class="fs">Консультация бесплатна</div>
           <form method="POST" autocomplete="off">
-            <div class="ig"><input type="text" name="name" placeholder="Ваше имя" autocomplete="one-time-code" required /></div>
-            <div class="ig"><input type="text" name="phone" placeholder="Номер телефона" autocomplete="one-time-code" required /></div>
+            <div class="ig"><input type="text" name="name" placeholder="Ваше имя" required /></div>
+            <div class="ig"><input type="text" name="phone" placeholder="Номер телефона" required /></div>
             <div class="ig">
               <select name="country" required>
                 <option value="" disabled selected>Направление</option>
                 <option>ШЕНГЕН</option>
                 <option>США</option>
-                <option>ВЕЛИКОБРИТАНИЯ</option>
-                <option>КАНАДА</option>
-                <option>АВСТРАЛИЯ</option>
-                <option>НОВАЯ ЗЕЛАНДИЯ</option>
-                <option>ЯПОНИЯ</option>
-                <option>КОРЕЯ</option>
-                <option>ИНДИЯ</option>
-                <option>АФРИКА</option>
                 <option>ДРУГОЕ</option>
               </select>
             </div>
@@ -475,381 +431,24 @@ const done = Astro.url.searchParams.get("done");
   </div>
 </section>
 
-<div class="divl"></div>
-
-<!-- FLAGS -->
-<div class="flags-sec">
-  <div class="flags-label" style="margin-bottom:20px">Оформляем визы в 30+ стран мира</div>
-  <div class="flags-wrap">
-    <div class="flags-track">
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/de.png" /><span>Германия</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/fr.png" /><span>Франция</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/it.png" /><span>Италия</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/es.png" /><span>Испания</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/nl.png" /><span>Нидерланды</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/at.png" /><span>Австрия</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/cz.png" /><span>Чехия</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/pl.png" /><span>Польша</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/us.png" /><span>США</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/gb.png" /><span>Великобритания</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/ca.png" /><span>Канада</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/au.png" /><span>Австралия</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/nz.png" /><span>Нов. Зеландия</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/jp.png" /><span>Япония</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/kr.png" /><span>Корея</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/cn.png" /><span>Китай</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/in.png" /><span>Индия</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/th.png" /><span>Таиланд</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/ae.png" /><span>ОАЭ</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/tr.png" /><span>Турция</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/ge.png" /><span>Грузия</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/za.png" /><span>Юж. Африка</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/eg.png" /><span>Египет</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/ma.png" /><span>Марокко</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/sg.png" /><span>Сингапур</span></div>
-      <!-- дубли для бесконечной прокрутки -->
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/de.png" /><span>Германия</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/fr.png" /><span>Франция</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/it.png" /><span>Италия</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/es.png" /><span>Испания</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/nl.png" /><span>Нидерланды</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/at.png" /><span>Австрия</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/us.png" /><span>США</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/gb.png" /><span>Великобритания</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/ca.png" /><span>Канада</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/au.png" /><span>Австралия</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/jp.png" /><span>Япония</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/kr.png" /><span>Корея</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/tr.png" /><span>Турция</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/ge.png" /><span>Грузия</span></div>
-      <div class="flag-item"><img class="fi" src="https://flagcdn.com/w40/sg.png" /><span>Сингапур</span></div>
-    </div>
-  </div>
-</div>
-
-<div class="divl"></div>
-
-<!-- WHY US -->
 <section class="sec" id="why">
   <div class="stag">Наши преимущества</div>
   <h2 class="sectitle">Почему выбирают <span>нас</span></h2>
-  <p class="secdesc">Мы работаем на рынке визовых услуг более 5 лет и за это время помогли более чем 5000 клиентов получить визы в десятки стран мира. Наша команда — это опытные специалисты, которые знают все тонкости визового процесса.</p>
   <div class="why-grid">
-    <div class="why-card">
-      <span class="why-icon">🏆</span>
-      <div class="why-num">98%</div>
-      <div class="why-label">Одобрений</div>
-      <p class="why-text">Высокий процент одобрений благодаря тщательной подготовке документов и многолетнему опыту работы с консульствами.</p>
-    </div>
-    <div class="why-card">
-      <span class="why-icon">⚡</span>
-      <div class="why-num">1-3 дня</div>
-      <div class="why-label">Подготовка</div>
-      <p class="why-text">Быстрая подготовка полного пакета документов. Не тратьте время на самостоятельный сбор — мы сделаем всё за вас.</p>
-    </div>
-    <div class="why-card">
-      <span class="why-icon">🛡️</span>
-      <div class="why-num">100%</div>
-      <div class="why-label">Гарантия</div>
-      <p class="why-text">Полное сопровождение на всех этапах. Если возникнут вопросы от консульства — поможем ответить и решить проблему.</p>
-    </div>
-    <div class="why-card">
-      <span class="why-icon">🌍</span>
-      <div class="why-num">30+</div>
-      <div class="why-label">Стран</div>
-      <p class="why-text">Работаем с визами в более чем 30 стран мира. Европа, США, Азия, Австралия — любое направление.</p>
-    </div>
+    <div class="why-card"><span class="why-icon">🏆</span><div class="why-num">98%</div><div class="why-label">Одобрений</div></div>
+    <div class="why-card"><span class="why-icon">⚡</span><div class="why-num">1-3 дня</div><div class="why-label">Подготовка</div></div>
+    <div class="why-card"><span class="why-icon">🛡️</span><div class="why-num">100%</div><div class="why-label">Гарантия</div></div>
+    <div class="why-card"><span class="why-icon">🌍</span><div class="why-num">30+</div><div class="why-label">Стран</div></div>
   </div>
 </section>
 
-<div class="divl"></div>
-
-<!-- HOW IT WORKS -->
-<section class="sec alt" id="how">
-  <div class="stag">Процесс работы</div>
-  <h2 class="sectitle">Как мы <span>работаем</span></h2>
-  <p class="secdesc">Получение визы с нами — это простой и понятный процесс. Вы только приходите к нам, а всё остальное мы берём на себя.</p>
-  <div class="steps">
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-title">Консультация</div>
-      <p class="step-desc">Бесплатная консультация по вашей ситуации. Определяем тип визы, сроки и стоимость. Отвечаем на все вопросы.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-title">Список документов</div>
-      <p class="step-desc">Выдаём персональный список документов. Объясняем где и как их получить, что нужно перевести или заверить.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <div class="step-title">Сбор и проверка</div>
-      <p class="step-desc">Проверяем каждый документ на соответствие требованиям консульства. Исправляем ошибки до подачи.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">4</div>
-      <div class="step-title">Запись и подача</div>
-      <p class="step-desc">Записываем на приём в визовый центр или консульство, помогаем заполнить анкеты, подаём документы.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">5</div>
-      <div class="step-title">Получение визы</div>
-      <p class="step-desc">Отслеживаем статус заявки и уведомляем вас о готовности. Помогаем получить паспорт с визой.</p>
-    </div>
-  </div>
-</section>
-
-<div class="divl"></div>
-
-<!-- SERVICES -->
-<section class="sec dark" id="services">
-  <div class="stag">Направления</div>
-  <h2 class="sectitle">Наши <span>Услуги</span></h2>
-  <p class="secdesc">Мы специализируемся на получении виз во все страны, требующие визового оформления для граждан Казахстана. Полное сопровождение от консультации до получения визы.</p>
-  <div class="sgrid">
-    <div class="sc">
-      <span class="sc-flag">🇪🇺</span>
-      <div class="scname">Шенген</div>
-      <p class="scdesc">Шенгенская виза открывает доступ к 27 странам Европы. Мы готовим полный пакет документов, записываем на приём в визовый центр и сопровождаем на всех этапах. Работаем с туристическими, деловыми, учебными и транзитными шенгенскими визами.</p>
-      <ul class="sc-list">
-        <li>Заполнение анкеты на визу</li>
-        <li>Помощь с бронированием отеля и билетов</li>
-        <li>Подготовка финансовых документов</li>
-        <li>Страховка для шенгена</li>
-        <li>Запись в визовый центр</li>
-      </ul>
-      <div class="sc-countries">
-        <span>🇩🇪 Германия</span><span>🇫🇷 Франция</span><span>🇮🇹 Италия</span>
-        <span>🇪🇸 Испания</span><span>🇳🇱 Нидерланды</span><span>🇦🇹 Австрия</span>
-        <span>🇨🇿 Чехия</span><span>🇵🇱 Польша</span><span>+ другие</span>
-      </div>
-    </div>
-    <div class="sc">
-      <span class="sc-flag">🌎</span>
-      <div class="scname">США, Канада, Великобритания</div>
-      <p class="scdesc">Визы в англоязычные страны требуют особой подготовки. Мы проводим детальный разбор вашей ситуации, помогаем убедительно показать цель поездки и намерение вернуться домой. Высокий процент одобрений благодаря правильной подготовке к интервью.</p>
-      <ul class="sc-list">
-        <li>США: заполнение DS-160, подготовка к интервью</li>
-        <li>Великобритания: анкета, финансы, письма</li>
-        <li>Канада: электронная подача, биометрия</li>
-        <li>Австралия и Новая Зеландия: онлайн-визы</li>
-        <li>Разбор отказов и повторная подача</li>
-      </ul>
-      <div class="sc-countries">
-        <span>🇺🇸 США</span><span>🇬🇧 Великобритания</span><span>🇨🇦 Канада</span>
-        <span>🇦🇺 Австралия</span><span>🇳🇿 Нов. Зеландия</span>
-      </div>
-    </div>
-    <div class="sc">
-      <span class="sc-flag">🌏</span>
-      <div class="scname">Азия и другие страны</div>
-      <p class="scdesc">Японская и корейская визы известны своей строгостью — мы знаем как правильно подготовить документы. Также оформляем визы в Индию и страны Африки. Быстрое оформление, минимум хлопот.</p>
-      <ul class="sc-list">
-        <li>Япония: полный пакет документов</li>
-        <li>Корея: анкета, маршрут, финансы</li>
-        <li>Китай: приглашение, анкета</li>
-        <li>Индия: электронная виза e-Visa</li>
-        <li>Африка: быстрое оформление</li>
-      </ul>
-      <div class="sc-countries">
-        <span>🇯🇵 Япония</span><span>🇰🇷 Корея</span>
-        <span>🇮🇳 Индия</span><span>🌍 Африка</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divl"></div>
-
-<!-- VISA TYPES -->
-<section class="sec alt" id="types">
-  <div class="stag">Типы виз</div>
-  <h2 class="sectitle">Какие визы мы <span>оформляем</span></h2>
-  <p class="secdesc">Мы работаем со всеми категориями виз. Независимо от цели вашей поездки — мы поможем правильно определить тип визы и подготовить необходимые документы.</p>
-  <div class="vtypes">
-    <div class="vt">
-      <div class="vt-title"><span>✈️</span> Туристическая виза</div>
-      <p class="vt-desc">Самый популярный тип визы для путешествий и отдыха за рубежом. Выдаётся на срок от нескольких дней до нескольких лет в зависимости от страны.</p>
-      <ul class="vt-list">
-        <li>Одинарный и многократный въезд</li>
-        <li>Срок пребывания от 7 до 90 дней</li>
-        <li>Возможность продления в ряде стран</li>
-        <li>Быстрое оформление при наличии документов</li>
-      </ul>
-    </div>
-    <div class="vt">
-      <div class="vt-title"><span>💼</span> Деловая виза</div>
-      <p class="vt-desc">Для деловых поездок, переговоров, участия в конференциях и выставках. Требует приглашение от принимающей компании.</p>
-      <ul class="vt-list">
-        <li>Приглашение от иностранной компании</li>
-        <li>Многократный въезд на длительный срок</li>
-        <li>Подтверждение деловых связей</li>
-        <li>Ускоренное рассмотрение в ряде консульств</li>
-      </ul>
-    </div>
-    <div class="vt">
-      <div class="vt-title"><span>🎓</span> Студенческая виза</div>
-      <p class="vt-desc">Для обучения в зарубежных учебных заведениях. Оформляется на срок обучения с возможностью продления.</p>
-      <ul class="vt-list">
-        <li>Зачисление в учебное заведение</li>
-        <li>Подтверждение финансового обеспечения</li>
-        <li>Медицинская страховка</li>
-        <li>Помощь в оформлении ВНЖ студента</li>
-      </ul>
-    </div>
-    <div class="vt">
-      <div class="vt-title"><span>👨‍👩‍👧</span> Гостевая и семейная виза</div>
-      <p class="vt-desc">Для посещения родственников или друзей за рубежом. Требует официальное приглашение от принимающей стороны.</p>
-      <ul class="vt-list">
-        <li>Нотариальное приглашение</li>
-        <li>Подтверждение родства при необходимости</li>
-        <li>Финансовые гарантии принимающей стороны</li>
-        <li>Помощь с оформлением приглашения</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<div class="divl"></div>
-
-<!-- DOCUMENTS -->
-<section class="sec dark" id="docs">
-  <div class="stag">Документы</div>
-  <h2 class="sectitle">Стандартный пакет <span>документов</span></h2>
-  <p class="secdesc">Точный список документов зависит от страны и типа визы. Мы составим персональный список после консультации. Ниже — общий перечень для большинства виз.</p>
-  <div class="docs-grid">
-    <div class="doc-block">
-      <h3>📋 Основные документы</h3>
-      <ul class="doc-list">
-        <li>Загранпаспорт (действует не менее 6 месяцев после поездки)</li>
-        <li>Копии всех страниц загранпаспорта</li>
-        <li>Копия удостоверения личности</li>
-        <li>Фотографии по требованиям консульства</li>
-        <li>Заполненная визовая анкета</li>
-        <li>Квитанция об оплате консульского сбора</li>
-      </ul>
-    </div>
-    <div class="doc-block">
-      <h3>✈️ Документы о поездке</h3>
-      <ul class="doc-list">
-        <li>Бронирование авиабилетов (туда и обратно)</li>
-        <li>Бронирование отеля или подтверждение проживания</li>
-        <li>Туристический маршрут (детальная программа поездки)</li>
-        <li>Медицинская страховка (минимум 30 000 €)</li>
-        <li>Приглашение (для деловых и гостевых виз)</li>
-      </ul>
-    </div>
-    <div class="doc-block">
-      <h3>💰 Финансовые документы</h3>
-      <ul class="doc-list">
-        <li>Выписка с банковского счёта за 3-6 месяцев</li>
-        <li>Справка о доходах с места работы</li>
-        <li>Справка с места работы (должность, стаж, зарплата)</li>
-        <li>Для предпринимателей: свидетельство о регистрации</li>
-        <li>Налоговая декларация (для ряда стран)</li>
-      </ul>
-    </div>
-    <div class="doc-block">
-      <h3>🏠 Дополнительные документы</h3>
-      <ul class="doc-list">
-        <li>Свидетельство о браке / рождении детей</li>
-        <li>Документы на недвижимость (подтверждение связей с КЗ)</li>
-        <li>Предыдущие визы и штампы о въезде</li>
-        <li>Студентам: справка из учебного заведения</li>
-        <li>Пенсионерам: пенсионное удостоверение</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<div class="divl"></div>
-
-<!-- FAQ -->
-<section class="sec" id="faq">
-  <div class="stag">Частые вопросы</div>
-  <h2 class="sectitle">FAQ — <span>Ответы на вопросы</span></h2>
-  <p class="secdesc">Собрали самые частые вопросы от наших клиентов. Если не нашли ответ — позвоните нам, мы всегда готовы помочь.</p>
-  <div class="faq">
-    <div class="faq-item">
-      <div class="faq-q">Сколько стоят ваши услуги?</div>
-      <div class="faq-a"><p>Стоимость зависит от страны, типа визы и срочности. Консультация бесплатна. Стоимость услуг агентства не включает консульский сбор — он оплачивается отдельно. Позвоните нам для уточнения стоимости по вашему направлению.</p></div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">Гарантируете ли вы получение визы?</div>
-      <div class="faq-a"><p>Решение о выдаче визы принимает только консульство. Мы гарантируем качественную подготовку документов и максимально возможный шанс одобрения. Наш процент одобрений составляет 98%. В случае отказа мы анализируем причины и помогаем с повторной подачей.</p></div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">Как долго ждать визу?</div>
-      <div class="faq-a"><p>Сроки зависят от страны. Шенген — в среднем 5-15 рабочих дней. США — от 2 недель до 2 месяцев (зависит от загруженности консульства). Япония и Корея — 5-10 рабочих дней. Рекомендуем начинать процесс за 1-3 месяца до поездки.</p></div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">Что делать если в визе отказали?</div>
-      <div class="faq-a"><p>Не паникуйте — отказ не означает, что визу не получить никогда. Обратитесь к нам: мы проанализируем причину отказа, исправим ошибки в документах и поможем подать повторно с правильной стратегией. Многие наши клиенты получили визу со второй попытки.</p></div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">Нужно ли мне самому ехать в консульство?</div>
-      <div class="faq-a"><p>Для большинства стран личное присутствие обязательно — для сдачи биометрии и прохождения интервью (США). Однако мы берём на себя все подготовительные работы: документы, анкеты, запись на приём. Вы приходите только на само собеседование, полностью подготовленным.</p></div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">Можно ли оформить визу срочно?</div>
-      <div class="faq-a"><p>Да, в ряде случаев возможно срочное оформление. Многие консульства предлагают ускоренный сервис за дополнительную плату. Свяжитесь с нами как можно скорее — мы найдём оптимальное решение для вашей ситуации.</p></div>
-    </div>
-  </div>
-</section>
-
-<div class="divl"></div>
-
-<!-- REVIEWS -->
-<section class="sec alt" id="reviews">
-  <div class="stag">Что говорят клиенты</div>
-  <h2 class="sectitle"><span>Отзывы</span></h2>
-  <p class="secdesc">Более 5000 довольных клиентов за 5 лет работы. Нам доверяют семьи, студенты, предприниматели и путешественники.</p>
-  <div class="rgrid">
-    <div class="rv">
-      <div class="rv-stars">★★★★★</div>
-      <p class="rv-text">«Оформляли шенгенскую визу в Германию. Всё прошло быстро и без лишних вопросов. Ребята собрали весь пакет документов за один день. Очень рекомендую!»</p>
-      <div class="rv-author"><div class="rv-avatar">А</div><div><div class="rv-name">Айгерим С.</div><div class="rv-country">🇩🇪 Германия · Шенген</div></div></div>
-    </div>
-    <div class="rv">
-      <div class="rv-stars">★★★★★</div>
-      <p class="rv-text">«Помогли с визой в США. Отказали один раз сами, обратились в агентство — с первого раза одобрили. Подготовка к интервью была на высшем уровне.»</p>
-      <div class="rv-author"><div class="rv-avatar">Д</div><div><div class="rv-name">Данияр К.</div><div class="rv-country">🇺🇸 США · B2</div></div></div>
-    </div>
-    <div class="rv">
-      <div class="rv-stars">★★★★★</div>
-      <p class="rv-text">«Оформляли визы в Японию для всей семьи. Профессионально, чётко, без стресса. Документы приняли с первого раза. Спасибо большое команде!»</p>
-      <div class="rv-author"><div class="rv-avatar">М</div><div><div class="rv-name">Мадина Т.</div><div class="rv-country">🇯🇵 Япония</div></div></div>
-    </div>
-    <div class="rv">
-      <div class="rv-stars">★★★★★</div>
-      <p class="rv-text">«Получила визу в Великобританию. Думала процесс займёт 2 месяца, но агентство всё организовало за месяц. Очень приятный сервис и внимательный подход.»</p>
-      <div class="rv-author"><div class="rv-avatar">З</div><div><div class="rv-name">Зарина Б.</div><div class="rv-country">🇬🇧 Великобритания</div></div></div>
-    </div>
-    <div class="rv">
-      <div class="rv-stars">★★★★★</div>
-      <p class="rv-text">«Обращались за визой в Канаду. Всё объяснили, помогли заполнить анкету, подготовили документы. Виза одобрена! Отличная работа.»</p>
-      <div class="rv-author"><div class="rv-avatar">Р</div><div><div class="rv-name">Руслан А.</div><div class="rv-country">🇨🇦 Канада</div></div></div>
-    </div>
-  </div>
-</section>
-
-<div class="divl"></div>
-
-<!-- CTA BANNER -->
-<div class="cta-banner">
-  <h2>Готовы к <span>путешествию?</span></h2>
-  <p>Оставьте заявку прямо сейчас — мы бесплатно проконсультируем вас и составим план получения визы. Первый шаг к вашей мечте — всего один звонок.</p>
-  <a href="#home" class="cta-btn">Получить консультацию бесплатно</a>
-</div>
-
-<!-- CONTACTS -->
 <section class="sec dark" id="contacts">
   <div class="stag">Найти нас</div>
   <h2 class="sectitle">Наш <span>Офис</span></h2>
   <div class="cgrid">
     <div>
-      <div class="cb"><div class="clabel">Адрес</div><div class="cval">ул. Желтоксан, 111А, офис 1</div><div class="csub">угол ул. Толе Би, г. Алматы</div></div>
+      <div class="cb"><div class="clabel">Адрес</div><div class="cval">ул. Желтоксан, 111А, офис 1</div></div>
       <div class="cb"><div class="clabel">Телефон</div><div class="cval">+7 778 004 44 13</div></div>
-      <div class="cb"><div class="clabel">График работы</div><div class="cval">Пн — Пт</div><div class="csub">09:00 — 18:00</div></div>
     </div>
     <div class="mapbox">
       <iframe src="https://yandex.ru/map-widget/v1/?ll=76.939223%2C43.254714&z=16&pt=76.939223%2C43.254714,pm2blm" allowfullscreen="true"></iframe>
@@ -858,36 +457,14 @@ const done = Astro.url.searchParams.get("done");
 </section>
 
 <footer>
-  <a class="flogo" href="#home">
-    <svg width="32" height="32" viewBox="0 0 46 46" fill="none">
-      <ellipse cx="23" cy="23" rx="20" ry="9" stroke="#4a7a30" stroke-width="1.5" fill="none" transform="rotate(-30 23 23)" opacity="0.8"/>
-      <g transform="translate(23,23) rotate(-35) translate(-8,-5)">
-        <path d="M0,5 L14,2 L16,5 L14,8 Z" fill="#ffffff"/>
-        <path d="M4,5 L0,0 L2,5 Z" fill="#e8dfc0" opacity="0.9"/>
-        <path d="M4,5 L0,10 L2,5 Z" fill="#e8dfc0" opacity="0.9"/>
-      </g>
-      <circle cx="23" cy="23" r="2.5" fill="#e8751a" opacity="0.7"/>
-    </svg>
-    <div>
-      <div class="flogo-bon">BON <span style="color:var(--o)">VOYAGE</span></div>
-      <div class="flogo-sub">Визовое агентство</div>
-    </div>
-  </a>
   <div class="fcopy">© 2026 BON VOYAGE — Алматы, Желтоксан 111А</div>
 </footer>
 
-<script>
+<script is:inline>
   function toggleNav(){document.getElementById('nav').classList.toggle('open')}
-  document.querySelectorAll('#nav a').forEach(a=>a.addEventListener('click',()=>document.getElementById('nav').classList.remove('open')));
-
-  document.querySelectorAll('.faq-q').forEach(btn => {
-    btn.addEventListener('click', () => {
-      btn.parentElement.classList.toggle('open');
-    });
-  });
-
+  
   const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.style.opacity='1';x.target.style.transform='translateY(0)'}})},{threshold:.08});
-  document.querySelectorAll('.sc,.rv,.why-card,.step,.vt,.doc-block,.faq-item,.cb').forEach(el=>{
+  document.querySelectorAll('.why-card,.fcard').forEach(el=>{
     el.style.opacity='0';el.style.transform='translateY(20px)';
     el.style.transition='opacity .5s ease,transform .5s ease';obs.observe(el);
   });
