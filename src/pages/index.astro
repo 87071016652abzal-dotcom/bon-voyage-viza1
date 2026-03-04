@@ -226,7 +226,7 @@ const done = Astro.url.searchParams.get("done");
 
     /* FLAGS SCROLL */
     .flags-section{padding:50px 6%;background:var(--bg3);overflow:hidden}
-    .flags-title{font-size:14px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--mt);text-align:center;margin-bottom:30px}
+    .flags-title{font-size:14px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--mt);text-align:center;margin-bottom:50px}
     .flags-track{display:flex;gap:20px;animation:scroll 30s linear infinite;width:max-content}
     .flags-track:hover{animation-play-state:paused}
     @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
@@ -419,7 +419,7 @@ const done = Astro.url.searchParams.get("done");
             <div class="ig"><input type="text" name="phone" placeholder="Номер телефона" autocomplete="one-time-code" required /></div>
             <div class="ig">
               <select name="country" required>
-                <option value="" disabled selected>Куда летим?</option>
+                <option value="" disabled selected>Направление</option>
                 <option>ШЕНГЕН</option>
                 <option>США</option>
                 <option>ВЕЛИКОБРИТАНИЯ</option>
@@ -427,8 +427,7 @@ const done = Astro.url.searchParams.get("done");
                 <option>АВСТРАЛИЯ</option>
                 <option>НОВАЯ ЗЕЛАНДИЯ</option>
                 <option>ЯПОНИЯ</option>
-                <option>КОРЕЯ</option>
-                <option>КИТАЙ</option>
+                <option>КОРЕЯ</option>                
                 <option>ИНДИЯ</option>                            
                 <option>АФРИКА</option>
                 <option>ДРУГОЕ</option>
