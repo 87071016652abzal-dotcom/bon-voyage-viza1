@@ -730,27 +730,27 @@ const done = Astro.url.searchParams.get("done");
   <p class="secdesc">Собрали самые частые вопросы от наших клиентов. Если не нашли ответ — позвоните нам, мы всегда готовы помочь.</p>
   <div class="faq">
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Сколько стоят ваши услуги?</div>
+      <div class="faq-q" >Сколько стоят ваши услуги?</div>
       <div class="faq-a"><p>Стоимость зависит от страны, типа визы и срочности. Консультация бесплатна. Стоимость услуг агентства не включает консульский сбор — он оплачивается отдельно. Позвоните нам для уточнения стоимости по вашему направлению.</p></div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Гарантируете ли вы получение визы?</div>
+      <div class="faq-q" >Гарантируете ли вы получение визы?</div>
       <div class="faq-a"><p>Решение о выдаче визы принимает только консульство. Мы гарантируем качественную подготовку документов и максимально возможный шанс одобрения. Наш процент одобрений составляет 98%. В случае отказа мы анализируем причины и помогаем с повторной подачей.</p></div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Как долго ждать визу?</div>
+      <div class="faq-q" >Как долго ждать визу?</div>
       <div class="faq-a"><p>Сроки зависят от страны. Шенген — в среднем 5-15 рабочих дней. США — от 2 недель до 2 месяцев (зависит от загруженности консульства). Япония и Корея — 5-10 рабочих дней. Рекомендуем начинать процесс за 1-3 месяца до поездки.</p></div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Что делать если в визе отказали?</div>
+      <div class="faq-q">Что делать если в визе отказали?</div>
       <div class="faq-a"><p>Не паникуйте — отказ не означает, что визу не получить никогда. Обратитесь к нам: мы проанализируем причину отказа, исправим ошибки в документах и поможем подать повторно с правильной стратегией. Многие наши клиенты получили визу со второй попытки.</p></div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Нужно ли мне самому ехать в консульство?</div>
+      <div class="faq-q">Нужно ли мне самому ехать в консульство?</div>
       <div class="faq-a"><p>Для большинства стран личное присутствие обязательно — для сдачи биометрии и прохождения интервью (США). Однако мы берём на себя все подготовительные работы: документы, анкеты, запись на приём. Вы приходите только на само собеседование, полностью подготовленным.</p></div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Можно ли оформить визу срочно?</div>
+      <div class="faq-q">Можно ли оформить визу срочно?</div>
       <div class="faq-a"><p>Да, в ряде случаев возможно срочное оформление. Многие консульства предлагают ускоренный сервис за дополнительную плату. Свяжитесь с нами как можно скорее — мы найдём оптимальное решение для вашей ситуации.</p></div>
     </div>
   </div>
@@ -840,16 +840,16 @@ const done = Astro.url.searchParams.get("done");
   function toggleNav(){document.getElementById('nav').classList.toggle('open')}
   document.querySelectorAll('#nav a').forEach(a=>a.addEventListener('click',()=>document.getElementById('nav').classList.remove('open')));
 
-  function toggleFaq(el){
-    const item = el.parentElement;
-    item.classList.toggle('open');
-  }
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.parentElement.classList.toggle('open');
+    });
+  });
 
-  const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.style.opacity='1';x.target.style.transform='translateY(0)'}})},{threshold:.1});
+  const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.style.opacity='1';x.target.style.transform='translateY(0)'}})},{threshold:.08});
   document.querySelectorAll('.sc,.rv,.why-card,.step,.vt,.doc-block,.faq-item,.cb').forEach(el=>{
     el.style.opacity='0';el.style.transform='translateY(20px)';
-    el.style.transition='opacity .55s ease,transform .55s ease';
-    obs.observe(el);
+    el.style.transition='opacity .5s ease,transform .5s ease';obs.observe(el);
   });
 </script>
 </body>
